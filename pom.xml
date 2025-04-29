@@ -5,16 +5,20 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>${revision}</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>3.4.5</version>
     </parent>
 
     <groupId>xyz.catuns.spring</groupId>
     <artifactId>catuns-spring-boot-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>catuns-spring-boot-starter</name>
+    <version>${revision}</version>
+    <name>starter</name>
     <description>catuns-spring-boot-starter</description>
     <packaging>pom</packaging>
+
+    <modules>
+        <module>parent</module>
+        <module>catuns-spring-boot-starter-base</module>
+    </modules>
 
     <url/>
     <licenses>
@@ -33,28 +37,15 @@
 
     <properties>
         <java.version>17</java.version>
-        <revision>3.4.5</revision>
+        <revision>0.0.1-SNAPSHOT</revision>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Devin Catuns' Spring Boot Maven Packages</name>
+            <url>https://maven.pkg.github.com/catuns-spring-boot/starter</url>
+        </repository>
+    </distributionManagement>
 
 </project>
