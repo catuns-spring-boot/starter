@@ -1,4 +1,4 @@
-package xyz.catuns.spring.model;
+package xyz.catuns.spring.model.user;
 
 import jakarta.persistence.*;
 import lombok.Data;

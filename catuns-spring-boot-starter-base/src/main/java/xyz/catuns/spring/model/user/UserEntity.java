@@ -1,4 +1,4 @@
-package xyz.catuns.spring.model;
+package xyz.catuns.spring.model.user;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -29,10 +29,12 @@ public class UserEntity {
     @Column(name = "pwd_hash", nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "roles")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<UserRoleAuthority> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
