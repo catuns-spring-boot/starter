@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Slf4j
 @ControllerAdvice
-public class GenericExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessage> genericExceptionHandler(
