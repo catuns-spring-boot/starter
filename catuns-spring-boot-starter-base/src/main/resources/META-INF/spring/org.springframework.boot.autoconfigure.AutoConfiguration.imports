@@ -1,1 +1,2 @@
 xyz.catuns.spring.base.exception.GenericExceptionHandler
+xyz.catuns.spring.base.security.jwt.JwtConfiguration
