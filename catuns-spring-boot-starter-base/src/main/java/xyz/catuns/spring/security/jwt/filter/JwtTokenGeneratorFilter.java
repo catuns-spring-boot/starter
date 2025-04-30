@@ -14,7 +14,6 @@ import xyz.catuns.spring.security.jwt.JwtToken;
 import java.io.IOException;
 
 import static xyz.catuns.spring.security.jwt.JwtConstants.*;
-import static xyz.catuns.spring.security.jwt.JwtConstants.JWT_EXPIRATION_KEY;
 
 public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
 
