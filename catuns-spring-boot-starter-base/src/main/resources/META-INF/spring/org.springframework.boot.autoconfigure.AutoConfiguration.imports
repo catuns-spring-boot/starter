@@ -1,2 +1,5 @@
+xyz.catuns.spring.base.config.JwtSecurityAutoconfiguration
+xyz.catuns.spring.base.config.UserAutoConfiguration
 xyz.catuns.spring.base.exception.GenericExceptionHandler
 xyz.catuns.spring.base.security.jwt.JwtConfiguration
+
