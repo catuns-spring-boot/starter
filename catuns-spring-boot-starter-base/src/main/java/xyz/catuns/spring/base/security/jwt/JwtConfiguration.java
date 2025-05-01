@@ -7,9 +7,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties(JwtProperties.class)
 public class JwtConfiguration
 {
-    private final JwtProperties jwtProperties;
-
-    public JwtConfiguration(JwtProperties jwtProperties) {
-        this.jwtProperties = jwtProperties;
-    }
+//    private final JwtProperties jwtProperties;
+//
+//    public JwtConfiguration(JwtProperties jwtProperties) {
+//        this.jwtProperties = jwtProperties;
+//    }
 }

@@ -6,7 +6,7 @@
     <parent>
         <groupId>xyz.catuns.spring</groupId>
         <artifactId>catuns-spring-boot-starter-parent</artifactId>
-        <version>${revision}</version>
+        <version>0.0.1-beta.5f</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
@@ -77,6 +77,22 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>annotationProcessor</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
