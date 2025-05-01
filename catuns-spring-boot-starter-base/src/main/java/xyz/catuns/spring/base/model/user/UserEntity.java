@@ -1,0 +1,56 @@
+package xyz.catuns.spring.base.model.user;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+@Data
+
+@Entity
+@Table(name = "user_entities")
+public class UserEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    protected Long id;
+
+    @Column(name = "username")
+    protected String username;
+
+    @Column(name = "email", nullable = false, unique = true)
+    protected String email;
+
+    @Column(name = "pwd_hash", nullable = false)
+    protected String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    protected Set<UserRoleAuthority> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    protected Set<Account> accounts = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    protected Set<Session> sessions = new HashSet<>();
+
+    @CreationTimestamp
+    @Column(name = "created_at")
+    protected LocalDateTime createdAt;
+
+    public void addRoles(UserRoleAuthority... role) {
+        if (roles == null) {
+            roles = new HashSet<>();
+        }
+        this.roles.addAll(Arrays.asList(role));
+    }
+}
