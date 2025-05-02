@@ -8,5 +8,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import(value = JwtSecurityAutoConfiguration.class)
-public @interface EnableJwtSecurityAutoConfiguration {
+public @interface EnableJwtSecurity {
 }

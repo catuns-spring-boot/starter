@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "user_role_authority", schema = "users")
+@Table(name = "user_role_authority", schema = "user_entity")
 public class UserRoleAuthority {
 
     @Id

@@ -2,7 +2,7 @@
 
 ## Usage
 
-### [`@EnableJwtSecurityAutoConfiguration`](catuns-spring-boot-starter-base/src/main/java/xyz/catuns/spring/base/config/EnableJwtSecurityAutoConfiguration.java)
+### [`@EnableJwtSecurity`](catuns-spring-boot-starter-base/src/main/java/xyz/catuns/spring/base/config/EnableJwtSecurity.java)
 
 Configuration for default jwt Security. 
 
@@ -36,7 +36,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 }
 ```
 
-### [`@EnableUserAutoConfiguration`](catuns-spring-boot-starter-base/src/main/java/xyz/catuns/spring/base/config/EnableUserAutoConfiguration.java)
+### [`@EnableUserEntity`](catuns-spring-boot-starter-base/src/main/java/xyz/catuns/spring/base/config/EnableUserEntity.java)
 
 Configuration for User management. Create entities to use with
 `UserDetailsService`.
@@ -49,11 +49,19 @@ Configuration for User management. Create entities to use with
 
 ## Registering `@Entity` classes
 
-`@EntityScan(basePackages = "xyz.catuns.spring.base.model")` must be added to 
+Must scan entities and repositories
 
+`@EntityScan(basePackages = "xyz.catuns.spring.base.model")`  
+`EnableJpaRepositories(basePackages = "xyz.catuns.spring.base.repository.user")`
 ```java
 @SpringBootApplication
-@EntityScan(basePackages = "xyz.catuns.spring.base.model")
+@EnableUserEntity
+@EntityScan(basePackages = {
+        "xyz.catuns.spring.base.model.user",
+        "xyz.catuns.*.model"})
+@EnableJpaRepositories(basePackages = {
+        "xyz.catuns.spring.base.repository.user",
+        "xyz.catuns.*.repository"})
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
