@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 
 @Entity
-@Table(name = "user_entities")
+@Table(name = "user_entity", schema = "users")
 public class UserEntity {
 
     @Id
@@ -32,6 +32,7 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
+            schema = "users",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )

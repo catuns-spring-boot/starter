@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Account", uniqueConstraints = {
+@Table(name = "account", schema = "users", uniqueConstraints = {
         @UniqueConstraint(name = "uc_provider_account_id",
                 columnNames = {"provider", "providerAccountId"}
         )
@@ -21,7 +21,7 @@ public class Account {
     @Column(name = "provider", nullable = false)
     private String provider;
     
-    @Column(name = "providerAccountId", nullable = false)
+    @Column(name = "provider_account_id", nullable = false)
     private String providerAccountId;
     
     @Column(name = "refresh_token")
@@ -55,7 +55,7 @@ public class Account {
     private String oathToken;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
 }
