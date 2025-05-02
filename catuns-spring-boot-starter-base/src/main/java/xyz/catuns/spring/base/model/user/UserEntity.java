@@ -29,7 +29,7 @@ public class UserEntity {
     @Column(name = "pwd_hash", nullable = false)
     protected String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
             schema = "user_entity",
@@ -55,8 +55,13 @@ public class UserEntity {
 
         Arrays.stream(roleName)
                 .map(UserRoleAuthority::of)
+//                .peek(this::setRoleUser)
                 .forEach(this::addRole);
     }
+
+//    private void setRoleUser(UserRoleAuthority userRoleAuthority) {
+//        userRoleAuthority.
+//    }
 
     private void addRole(UserRoleAuthority userRoleAuthority) {
         this.roles.add(userRoleAuthority);

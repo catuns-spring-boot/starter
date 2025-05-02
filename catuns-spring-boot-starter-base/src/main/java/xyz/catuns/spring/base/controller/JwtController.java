@@ -17,13 +17,11 @@ import xyz.catuns.spring.base.service.UserEntityService;
 
 import static xyz.catuns.spring.base.security.jwt.JwtConstants.JWT_HEADER;
 
-//@RestController
-//@RequestMapping("/api/users")
-public class UserController {
+public class JwtController {
 
     private final UserEntityService userService;
 
-    public UserController(UserEntityService userService) {
+    public JwtController(UserEntityService userService) {
         this.userService = userService;
     }
 

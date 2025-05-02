@@ -1,4 +1,4 @@
-xyz.catuns.spring.base.config.JwtSecurityAutoConfiguration
+xyz.catuns.spring.base.config.jwt.JwtSecurityAutoConfiguration
 xyz.catuns.spring.base.config.user.UserAutoConfiguration
 xyz.catuns.spring.base.exception.GlobalExceptionHandler
 xyz.catuns.spring.base.security.jwt.JwtConfiguration

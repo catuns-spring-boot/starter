@@ -13,7 +13,7 @@ import xyz.catuns.spring.base.security.DefaultUserDetailsService;
 
 @Configuration
 @ConditionalOnClass({JpaRepository.class, UserDetailsService.class})
-@EnableConfigurationProperties(UserProperties.class)
+@EnableConfigurationProperties(AdminUserProperties.class)
 public class UserAutoConfiguration {
 
     @Bean
@@ -21,6 +21,4 @@ public class UserAutoConfiguration {
     public UserDetailsService defaultUserDetailsService(UserEntityRepository userEntityRepository) {
         return new DefaultUserDetailsService(userEntityRepository);
     }
-
-
 }

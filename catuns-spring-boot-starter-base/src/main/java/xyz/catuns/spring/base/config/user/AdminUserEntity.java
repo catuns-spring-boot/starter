@@ -5,11 +5,11 @@ import xyz.catuns.spring.base.service.UserEntityService;
 public class AdminUserEntity {
 
     private final UserEntityService userService;
-    private final UserProperties userProperties;
+    private final AdminUserProperties adminUserProperties;
 
-    public AdminUserEntity(UserEntityService userService, UserProperties userProperties) {
+    public AdminUserEntity(UserEntityService userService, AdminUserProperties adminUserProperties) {
         this.userService = userService;
-        this.userProperties = userProperties;
+        this.adminUserProperties = adminUserProperties;
     }
 
 }

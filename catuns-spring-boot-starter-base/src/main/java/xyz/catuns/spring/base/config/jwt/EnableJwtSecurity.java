@@ -1,4 +1,4 @@
-package xyz.catuns.spring.base.config;
+package xyz.catuns.spring.base.config.jwt;
 
 import org.springframework.context.annotation.Import;
 

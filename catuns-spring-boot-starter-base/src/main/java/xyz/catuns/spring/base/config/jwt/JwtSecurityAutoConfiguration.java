@@ -1,5 +1,6 @@
-package xyz.catuns.spring.base.config;
+package xyz.catuns.spring.base.config.jwt;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -16,12 +17,17 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import xyz.catuns.spring.base.controller.JwtController;
 import xyz.catuns.spring.base.exception.GlobalAccessDeniedHandler;
 import xyz.catuns.spring.base.exception.GlobalAuthenticationEntryPoint;
+import xyz.catuns.spring.base.repository.user.UserEntityRepository;
 import xyz.catuns.spring.base.security.UsernameAuthenticationProvider;
 import xyz.catuns.spring.base.security.cors.DefaultCorsConfigurationHandler;
+import xyz.catuns.spring.base.security.jwt.JwtProperties;
 import xyz.catuns.spring.base.security.jwt.filter.JwtTokenGeneratorFilter;
 import xyz.catuns.spring.base.security.jwt.filter.JwtTokenValidatorFilter;
+import xyz.catuns.spring.base.service.UserEntityService;
+import xyz.catuns.spring.base.service.UserEntityServiceImpl;
 
 @Configuration
 @ConditionalOnClass({SecurityFilterChain.class})
@@ -79,5 +85,29 @@ public class JwtSecurityAutoConfiguration {
     @ConditionalOnMissingBean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    @ConditionalOnBean(UserEntityRepository.class)
+    @ConditionalOnMissingBean
+    public UserEntityService userEntityService(
+            UserEntityRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            AuthenticationManager authenticationManager,
+            JwtProperties jwtProperties
+    ) {
+        return new UserEntityServiceImpl(
+                userRepository,
+                passwordEncoder,
+                authenticationManager,
+                jwtProperties
+        );
+    }
+
+    @Bean
+    @ConditionalOnBean(UserEntityService.class)
+    @ConditionalOnMissingBean
+    public JwtController jwtController(UserEntityService userEntityService) {
+        return new JwtController(userEntityService);
     }
 }

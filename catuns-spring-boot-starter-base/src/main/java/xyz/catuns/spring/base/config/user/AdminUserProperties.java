@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 
 
 @ConfigurationProperties("auth.admin")
-public record UserProperties(
+public record AdminUserProperties(
         @DefaultValue("admin@catuns.xyz")
         String email,
         String password,

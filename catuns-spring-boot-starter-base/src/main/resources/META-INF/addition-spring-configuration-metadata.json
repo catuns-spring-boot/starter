@@ -22,6 +22,23 @@
       "type": "java.lang.Boolean",
       "description": "Enable JWT autoconfiguration",
       "defaultValue": "true"
+    },
+    {
+      "name": "auth.admin.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable default admin user",
+      "defaultValue": "true"
+    },
+    {
+      "name": "auth.admin.email",
+      "type": "java.lang.String",
+      "description": "Admin user email",
+      "defaultValue": "admin@catuns.xyz"
+    },
+    {
+      "name": "auth.admin.password",
+      "type": "java.lang.String",
+      "description": "Admin user password"
     }
   ]
 }
