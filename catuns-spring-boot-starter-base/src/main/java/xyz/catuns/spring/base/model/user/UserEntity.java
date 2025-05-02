@@ -48,21 +48,22 @@ public class UserEntity {
     @Column(name = "created_at")
     protected LocalDateTime createdAt;
 
-    public void addRoles(UserRoleAuthority... role) {
+    public void addRoles(String... roleName) {
         if (roles == null) {
             roles = new HashSet<>();
         }
-        this.roles.addAll(Arrays.asList(role));
+
+        Arrays.stream(roleName)
+                .map(UserRoleAuthority::of)
+                .forEach(this::addRole);
     }
 
+    private void addRole(UserRoleAuthority userRoleAuthority) {
+        this.roles.add(userRoleAuthority);
+    }
 
     protected void setId(Long id) {
         this.id = id;
-    }
-
-
-    protected void setPassword(String password) {
-        this.password = password;
     }
 
 }

@@ -1,4 +1,7 @@
 package xyz.catuns.spring.base.controller.request;
 
-public record UserLogin() {
+public record UserLogin(
+        String email,
+        String password
+) {
 }

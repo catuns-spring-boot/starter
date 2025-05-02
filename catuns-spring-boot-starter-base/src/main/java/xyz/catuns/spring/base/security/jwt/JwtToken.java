@@ -55,7 +55,7 @@ public class JwtToken {
         return new Date(nowMillis + jwtTokenExpiration);
     }
 
-    private static String extractAuthorities(Authentication auth) {
+    public static String extractAuthorities(Authentication auth) {
         return auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));

@@ -39,4 +39,10 @@ public class UserRoleAuthority {
     public int hashCode() {
         return Objects.hashCode(name);
     }
+
+    public static UserRoleAuthority of(String roleName) {
+        final UserRoleAuthority role = new UserRoleAuthority();
+        role.name = roleName;
+        return role;
+    }
 }
