@@ -7,16 +7,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import xyz.catuns.spring.base.model.user.UserEntity;
 import xyz.catuns.spring.base.model.user.UserRoleAuthority;
-import xyz.catuns.spring.base.repository.user.UserRepository;
+import xyz.catuns.spring.base.repository.user.UserEntityRepository;
 
 import java.util.List;
 
 public class DefaultUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserEntityRepository userEntityRepository;
 
-    public DefaultUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public DefaultUserDetailsService(UserEntityRepository userEntityRepository) {
+        this.userEntityRepository = userEntityRepository;
     }
 
     /**
@@ -26,7 +26,7 @@ public class DefaultUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByEmail(username)
+        UserEntity user = userEntityRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
         List<GrantedAuthority> authorities = user.getRoles().stream()

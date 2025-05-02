@@ -6,7 +6,7 @@
     <parent>
         <groupId>xyz.catuns.spring</groupId>
         <artifactId>catuns-spring-boot-starter</artifactId>
-        <version>0.0.1-beta.5l</version>
+        <version>0.0.1-beta.5m</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -41,7 +41,7 @@
             <dependency>
                 <groupId>xyz.catuns.spring</groupId>
                 <artifactId>catuns-spring-boot-starter-base</artifactId>
-                <version>0.0.1-beta.5l</version>
+                <version>0.0.1-beta.5m</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>

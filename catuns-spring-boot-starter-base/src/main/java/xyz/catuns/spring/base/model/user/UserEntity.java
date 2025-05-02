@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-
 @Entity
 @Table(name = "user_entity", schema = "user_entity")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class UserEntity {
 
     @Id
@@ -54,4 +54,15 @@ public class UserEntity {
         }
         this.roles.addAll(Arrays.asList(role));
     }
+
+
+    protected void setId(Long id) {
+        this.id = id;
+    }
+
+
+    protected void setPassword(String password) {
+        this.password = password;
+    }
+
 }

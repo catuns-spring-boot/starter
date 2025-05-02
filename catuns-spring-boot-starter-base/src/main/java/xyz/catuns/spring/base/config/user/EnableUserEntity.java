@@ -1,8 +1,6 @@
-package xyz.catuns.spring.base.config;
+package xyz.catuns.spring.base.config.user;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.lang.annotation.*;
 
