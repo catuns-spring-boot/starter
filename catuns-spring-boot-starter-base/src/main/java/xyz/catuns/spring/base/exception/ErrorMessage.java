@@ -2,6 +2,8 @@ package xyz.catuns.spring.base.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -15,8 +17,6 @@ public class ErrorMessage {
     private final String message;
     private final HttpStatus statusCode;
     private final LocalDateTime timestamp;
-
-    private static final ObjectMapper mapper = new ObjectMapper();
 
     public ErrorMessage(String path, String message) {
         this(path, message, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -34,11 +34,15 @@ public class ErrorMessage {
     }
 
     public String toJson() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
         final Map<String, Object> map = new HashMap<>();
         map.put("path", path);
         map.put("message", message);
         map.put("statusCode", statusCode);
         map.put("timestamp", timestamp);
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return mapper.writeValueAsString(map);
     }
 

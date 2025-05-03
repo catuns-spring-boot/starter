@@ -6,7 +6,7 @@
     <parent>
         <groupId>xyz.catuns.spring</groupId>
         <artifactId>catuns-spring-boot-starter-parent</artifactId>
-        <version>0.0.1-beta.5q</version>
+        <version>0.0.1-beta.5u</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
@@ -61,21 +61,21 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
             <version>${jjwt.version}</version>
-            <scope>runtime</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
             <version>${jjwt.version}</version>
-            <scope>runtime</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
             <version>${jjwt.version}</version>
-            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
 
         <dependency>
