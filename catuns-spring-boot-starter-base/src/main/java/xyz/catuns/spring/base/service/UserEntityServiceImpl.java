@@ -1,10 +1,10 @@
 package xyz.catuns.spring.base.service;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import xyz.catuns.spring.base.controller.request.UserLogin;
 import xyz.catuns.spring.base.controller.request.UserRegistration;
@@ -14,12 +14,9 @@ import xyz.catuns.spring.base.dto.UserResponse;
 import xyz.catuns.spring.base.exception.UserNotFoundException;
 import xyz.catuns.spring.base.mapper.UserEntityMapper;
 import xyz.catuns.spring.base.model.user.UserEntity;
-import xyz.catuns.spring.base.model.user.UserRoleAuthority;
 import xyz.catuns.spring.base.repository.user.UserEntityRepository;
 import xyz.catuns.spring.base.security.jwt.JwtProperties;
 import xyz.catuns.spring.base.security.jwt.JwtToken;
-
-import static xyz.catuns.spring.base.security.jwt.JwtConstants.*;
 
 public class UserEntityServiceImpl implements UserEntityService {
 
@@ -56,7 +53,7 @@ public class UserEntityServiceImpl implements UserEntityService {
         if (auth == null || !auth.isAuthenticated()) {
             throw new BadCredentialsException("Username or password is incorrect");
         }
-        String email = (String) auth.getPrincipal();
+        String email = ((UserDetails) auth.getPrincipal()).getUsername();
         String roles = JwtToken.extractAuthorities(auth);
         String token = new JwtToken(jwtProperties.issuer(), jwtProperties.expiration())
                 .generate(auth, jwtProperties.secret());
