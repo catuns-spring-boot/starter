@@ -25,4 +25,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(errorMessage.getStatusCode())
                 .body(errorMessage);
     }
+    @ExceptionHandler(ControllerException.class)
+    public ResponseEntity<ErrorMessage> controllerExceptionHandler(
+            ControllerException e,
+            HttpServletRequest request
+    ) {
+        ErrorMessage errorMessage = new ErrorMessage(
+                request.getRequestURI(),
+                e.getMessage(),
+                e.getHttpStatus()
+        );
+
+        return ResponseEntity.status(errorMessage.getStatusCode())
+                .body(errorMessage);
+    }
 }
