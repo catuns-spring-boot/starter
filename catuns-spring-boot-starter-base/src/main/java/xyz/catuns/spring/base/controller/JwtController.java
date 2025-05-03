@@ -19,7 +19,7 @@ import static xyz.catuns.spring.base.security.jwt.JwtConstants.JWT_HEADER;
 
 public class JwtController {
 
-    private final UserEntityService userService;
+    protected final UserEntityService userService;
 
     public JwtController(UserEntityService userService) {
         this.userService = userService;

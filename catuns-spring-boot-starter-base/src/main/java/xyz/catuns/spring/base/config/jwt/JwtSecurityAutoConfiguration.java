@@ -103,11 +103,4 @@ public class JwtSecurityAutoConfiguration {
                 jwtProperties
         );
     }
-
-    @Bean
-    @ConditionalOnBean(UserEntityService.class)
-    @ConditionalOnMissingBean
-    public JwtController jwtController(UserEntityService userEntityService) {
-        return new JwtController(userEntityService);
-    }
 }
