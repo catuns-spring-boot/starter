@@ -1,6 +1,6 @@
 package xyz.catuns.spring.jwt.config.user;
 
-import xyz.catuns.spring.base.service.UserEntityService;
+import xyz.catuns.spring.jwt.service.UserEntityService;
 
 public class AdminUserEntity {
 

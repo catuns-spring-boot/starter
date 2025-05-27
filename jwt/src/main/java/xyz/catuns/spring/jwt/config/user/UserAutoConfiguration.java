@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import xyz.catuns.spring.base.repository.user.UserEntityRepository;
-import xyz.catuns.spring.base.security.DefaultUserDetailsService;
+import xyz.catuns.spring.jwt.repository.UserEntityRepository;
+import xyz.catuns.spring.jwt.security.DefaultUserDetailsService;
 
 @Configuration
 @ConditionalOnClass({JpaRepository.class, UserDetailsService.class})

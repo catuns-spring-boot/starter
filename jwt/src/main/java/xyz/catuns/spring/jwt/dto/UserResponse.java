@@ -1,8 +1,8 @@
 package xyz.catuns.spring.jwt.dto;
 
-import xyz.catuns.spring.base.model.user.Account;
-import xyz.catuns.spring.base.model.user.Session;
-import xyz.catuns.spring.base.model.user.UserRoleAuthority;
+import xyz.catuns.spring.jwt.model.Account;
+import xyz.catuns.spring.jwt.model.Session;
+import xyz.catuns.spring.jwt.model.UserRoleAuthority;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
