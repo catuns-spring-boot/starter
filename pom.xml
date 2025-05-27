@@ -10,14 +10,14 @@
 
     <groupId>xyz.catuns.spring</groupId>
     <artifactId>catuns-spring-boot-starter</artifactId>
-    <version>0.0.1-beta.5u</version>
+    <version>0.0.1-beta.6</version>
     <name>starter</name>
     <description>catuns-spring-boot-starter</description>
     <packaging>pom</packaging>
 
     <modules>
         <module>parent</module>
-        <module>catuns-spring-boot-starter-base</module>
+        <module>base</module>
     </modules>
 
     <url/>
