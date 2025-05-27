@@ -42,6 +42,11 @@
                 <artifactId>catuns-spring-boot-starter-base</artifactId>
                 <version>0.0.1-beta.6</version>
             </dependency>
+            <dependency>
+                <groupId>xyz.catuns.spring</groupId>
+                <artifactId>catuns-spring-boot-starter-jwt</artifactId>
+                <version>0.0.1-beta.6</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
