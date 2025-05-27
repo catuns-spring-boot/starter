@@ -2,11 +2,11 @@ package xyz.catuns.spring.jwt.service;
 
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
-import xyz.catuns.spring.base.controller.request.UserLogin;
-import xyz.catuns.spring.base.controller.request.UserRegistration;
-import xyz.catuns.spring.base.controller.request.UserUpdate;
-import xyz.catuns.spring.base.dto.LoginResponse;
-import xyz.catuns.spring.base.dto.UserResponse;
+import xyz.catuns.spring.jwt.controller.request.UserLogin;
+import xyz.catuns.spring.jwt.controller.request.UserRegistration;
+import xyz.catuns.spring.jwt.controller.request.UserUpdate;
+import xyz.catuns.spring.jwt.dto.LoginResponse;
+import xyz.catuns.spring.jwt.dto.UserResponse;
 
 public interface UserEntityService {
     UserResponse registerUser(@Valid UserRegistration registration);

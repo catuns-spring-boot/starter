@@ -5,9 +5,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import xyz.catuns.spring.base.model.user.UserEntity;
-import xyz.catuns.spring.base.model.user.UserRoleAuthority;
-import xyz.catuns.spring.base.repository.user.UserEntityRepository;
+import xyz.catuns.spring.jwt.model.user.UserEntity;
+import xyz.catuns.spring.jwt.model.user.UserRoleAuthority;
+import xyz.catuns.spring.jwt.repository.UserEntityRepository;
 
 import java.util.List;
 

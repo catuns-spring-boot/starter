@@ -6,17 +6,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import xyz.catuns.spring.base.controller.request.UserLogin;
-import xyz.catuns.spring.base.controller.request.UserRegistration;
-import xyz.catuns.spring.base.controller.request.UserUpdate;
-import xyz.catuns.spring.base.dto.LoginResponse;
-import xyz.catuns.spring.base.dto.UserResponse;
 import xyz.catuns.spring.base.exception.UserNotFoundException;
+import xyz.catuns.spring.jwt.controller.request.UserLogin;
+import xyz.catuns.spring.jwt.controller.request.UserRegistration;
+import xyz.catuns.spring.jwt.controller.request.UserUpdate;
+import xyz.catuns.spring.jwt.dto.LoginResponse;
+import xyz.catuns.spring.jwt.dto.UserResponse;
 import xyz.catuns.spring.jwt.mapper.UserEntityMapper;
-import xyz.catuns.spring.jwt.user.UserEntity;
-import xyz.catuns.spring.jwt.user.UserEntityRepository;
-import xyz.catuns.spring.base.security.jwt.JwtProperties;
-import xyz.catuns.spring.base.security.jwt.JwtToken;
+import xyz.catuns.spring.jwt.repository.UserEntityRepository;
+import xyz.catuns.spring.jwt.security.jwt.JwtProperties;
+import xyz.catuns.spring.jwt.security.jwt.JwtToken;
+import xyz.catuns.spring.jwt.model.UserEntity;
 
 public class UserEntityServiceImpl implements UserEntityService {
 

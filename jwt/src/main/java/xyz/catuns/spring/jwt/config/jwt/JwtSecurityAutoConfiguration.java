@@ -19,14 +19,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import xyz.catuns.spring.base.exception.GlobalAccessDeniedHandler;
 import xyz.catuns.spring.base.exception.GlobalAuthenticationEntryPoint;
-import xyz.catuns.spring.base.repository.user.UserEntityRepository;
-import xyz.catuns.spring.base.security.UsernameAuthenticationProvider;
-import xyz.catuns.spring.base.security.cors.DefaultCorsConfigurationHandler;
-import xyz.catuns.spring.base.security.jwt.JwtProperties;
-import xyz.catuns.spring.base.security.jwt.filter.JwtTokenGeneratorFilter;
-import xyz.catuns.spring.base.security.jwt.filter.JwtTokenValidatorFilter;
-import xyz.catuns.spring.base.service.UserEntityService;
-import xyz.catuns.spring.base.service.UserEntityServiceImpl;
+import xyz.catuns.spring.jwt.repository.UserEntityRepository;
+import xyz.catuns.spring.jwt.security.UsernameAuthenticationProvider;
+import xyz.catuns.spring.jwt.security.cors.DefaultCorsConfigurationHandler;
+import xyz.catuns.spring.jwt.security.jwt.JwtProperties;
+import xyz.catuns.spring.jwt.security.jwt.filter.JwtTokenGeneratorFilter;
+import xyz.catuns.spring.jwt.security.jwt.filter.JwtTokenValidatorFilter;
+import xyz.catuns.spring.jwt.service.UserEntityService;
+import xyz.catuns.spring.jwt.service.UserEntityServiceImpl;
 
 @Configuration
 @ConditionalOnClass({SecurityFilterChain.class})

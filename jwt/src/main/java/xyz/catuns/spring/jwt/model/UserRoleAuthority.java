@@ -1,4 +1,4 @@
-package xyz.catuns.spring.jwt.user;
+package xyz.catuns.spring.jwt.model;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;

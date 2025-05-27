@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import xyz.catuns.spring.jwt.controller.request.UserLogin;
 import xyz.catuns.spring.jwt.controller.request.UserRegistration;
 import xyz.catuns.spring.jwt.controller.request.UserUpdate;
-import xyz.catuns.spring.base.dto.LoginResponse;
-import xyz.catuns.spring.base.dto.UserResponse;
-import xyz.catuns.spring.base.service.UserEntityService;
+import xyz.catuns.spring.jwt.dto.LoginResponse;
+import xyz.catuns.spring.jwt.dto.UserResponse;
+import xyz.catuns.spring.jwt.service.UserEntityService;
 
-import static xyz.catuns.spring.base.security.jwt.JwtConstants.JWT_HEADER;
+import static xyz.catuns.spring.jwt.security.jwt.JwtConstants.JWT_HEADER;
 
 public class JwtController {
 
