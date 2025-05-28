@@ -18,4 +18,8 @@ public record PageList<Entity>(
                 page.getTotalPages(), page.getContent()
         );
     }
+
+    public static <Entity> PageList<Entity> map(List<Entity> entities) {
+        return new PageList<>(0, entities.size(), 1, entities);
+    }
 }

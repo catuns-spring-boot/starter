@@ -1,12 +1,14 @@
 package xyz.catuns.spring.base.exception;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 
 import java.lang.reflect.Method;
 
-@Slf4j
 public class GlobalAsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalAsyncExceptionHandler.class);
 
     /**
      * Handles uncaught exceptions that occur during the execution of asynchronous methods.

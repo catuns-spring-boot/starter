@@ -4,14 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@Getter
 public class ErrorMessage {
     private final String path;
     private final String message;
@@ -46,4 +44,19 @@ public class ErrorMessage {
         return mapper.writeValueAsString(map);
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public HttpStatus getStatusCode() {
+        return statusCode;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
 }

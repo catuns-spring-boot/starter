@@ -1,9 +1,7 @@
 package xyz.catuns.spring.base.exception;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@Getter
 public class ControllerException extends RuntimeException {
 
     protected final HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
@@ -20,4 +18,7 @@ public class ControllerException extends RuntimeException {
         super(message);
     }
 
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
 }
