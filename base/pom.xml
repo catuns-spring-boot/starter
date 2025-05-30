@@ -6,13 +6,12 @@
     <parent>
         <groupId>xyz.catuns.spring</groupId>
         <artifactId>catuns-spring-boot-starter-parent</artifactId>
-        <version>0.0.1-beta.6a</version>
+        <version>${revision}</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>catuns-spring-boot-starter-base</artifactId>
     <name>starter-base</name>
-
 
     <dependencies>
         <dependency>
@@ -61,14 +60,4 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>
