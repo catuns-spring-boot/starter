@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.4.5</version>
+  </parent>
+  <groupId>xyz.catuns.spring</groupId>
+  <artifactId>catuns-spring-boot-starter</artifactId>
+  <version>0.0.1-beta.6b</version>
+  <packaging>pom</packaging>
+  <name>starter</name>
+  <description>Catuns.xyz spring boot starter repository</description>
+  <url></url>
+  <licenses>
+    <license />
+  </licenses>
+  <developers>
+    <developer />
+  </developers>
+  <modules>
+    <module>parent</module>
+    <module>base</module>
+    <module>jwt</module>
+  </modules>
+  <scm>
+    <connection></connection>
+    <developerConnection></developerConnection>
+    <tag></tag>
+    <url></url>
+  </scm>
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>Devin Catuns' Spring Boot Maven Packages</name>
+      <url>https://maven.pkg.github.com/catuns-spring-boot/starter</url>
+    </repository>
+  </distributionManagement>
+  <properties>
+    <spring.boot.version>3.4.5</spring.boot.version>
+    <revision>0.0.1-beta.6b</revision>
+  </properties>
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Maven Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+  </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <version>1.7.0</version>
+        <executions>
+          <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <updatePomFile>true</updatePomFile>
+          <flattenMode>resolveCiFriendliesOnly</flattenMode>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

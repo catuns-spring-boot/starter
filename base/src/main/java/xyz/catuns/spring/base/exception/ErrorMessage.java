@@ -41,7 +41,9 @@ public class ErrorMessage {
         map.put("statusCode", statusCode);
         map.put("timestamp", timestamp);
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        return mapper.writeValueAsString(map);
+        String json = mapper.writeValueAsString(map);
+        mapper = null;
+        return json;
     }
 
     public String getPath() {
