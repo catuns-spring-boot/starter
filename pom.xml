@@ -10,7 +10,7 @@
 
     <groupId>xyz.catuns.spring</groupId>
     <artifactId>catuns-spring-boot-starter</artifactId>
-    <version>${revision}</version>
+    <version>0.0.1</version>
 
     <name>starter</name>
     <description>Catuns.xyz spring boot starter repository </description>
@@ -38,7 +38,6 @@
     </scm>
 
     <properties>
-        <revision>0.0.1-beta.6b</revision>
         <spring.boot.version>3.4.5</spring.boot.version>
         <java.version>21</java.version>
         <maven.compiler.source>21</maven.compiler.source>
@@ -74,7 +73,10 @@
                 <configuration>
                     <updatePomFile>true</updatePomFile>
                     <flattenMode>resolveCiFriendliesOnly</flattenMode>
-                    <flattenDependencyMode>all</flattenDependencyMode>
+<!--                    <flattenDependencyMode>all</flattenDependencyMode>-->
+<!--                    <pomElements>-->
+<!--                        <dependencyManagement>expand</dependencyManagement>-->
+<!--                    </pomElements>-->
                 </configuration>
                 <executions>
                     <execution>

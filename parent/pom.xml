@@ -6,15 +6,16 @@
     <parent>
         <groupId>xyz.catuns.spring</groupId>
         <artifactId>catuns-spring-boot-starter</artifactId>
-        <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>catuns-spring-boot-starter-parent</artifactId>
     <name>starter-parent</name>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <properties>
+        <revision>0.0.1-beta.6c</revision>
         <google.jib.version>3.3.2</google.jib.version>
         <google.jib.base.image>eclipse-temurin:21-jre-alpine</google.jib.base.image>
         <spring-doc.version>2.8.6</spring-doc.version>
@@ -24,11 +25,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>xyz.catuns.spring</groupId>
-                <artifactId>catuns-spring-boot-starter-base</artifactId>
-                <version>${revision}</version>
-            </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>

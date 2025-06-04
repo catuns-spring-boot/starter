@@ -20,6 +20,7 @@
 		<dependency>
 			<groupId>xyz.catuns.spring</groupId>
 			<artifactId>catuns-spring-boot-starter-base</artifactId>
+			<version>${revision}</version>
 		</dependency>
 
 		<dependency>
