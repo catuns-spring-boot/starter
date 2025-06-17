@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <revision>0.0.1-beta.6e</revision>
+        <revision>0.0.1-beta.7c</revision>
         <google.jib.version>3.3.2</google.jib.version>
         <google.jib.base.image>eclipse-temurin:21-jre-alpine</google.jib.base.image>
         <spring-doc.version>2.8.6</spring-doc.version>

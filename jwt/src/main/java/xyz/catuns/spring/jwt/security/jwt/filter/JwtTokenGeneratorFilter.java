@@ -9,11 +9,11 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import xyz.catuns.spring.jwt.security.jwt.JwtToken;
+import xyz.catuns.spring.jwt.security.jwt.JwtTokenUtil;
 
 import java.io.IOException;
 
-import static xyz.catuns.spring.jwt.security.jwt.JwtConstants.*;
+import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.*;
 
 public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
 
@@ -49,13 +49,8 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
-            Environment env = getEnvironment();
-            String secret = env.getProperty(JWT_SECRET_KEY, JWT_SECRET_DEFAULT_VALUE);
-            String issuer = env.getProperty(JWT_ISSUER_KEY, "");
-            Long expiration = Long.parseLong(env.getProperty(JWT_EXPIRATION_KEY, String.valueOf(36_000_000)));
-
-            String jwtToken = new JwtToken(issuer, expiration).generate(auth, secret);
-            response.setHeader(JWT_HEADER, jwtToken);
+            String jwtToken = new JwtTokenUtil(getEnvironment()).generate(auth);
+            response.setHeader(HEADER, jwtToken);
         }
         filterChain.doFilter(request, response);
     }

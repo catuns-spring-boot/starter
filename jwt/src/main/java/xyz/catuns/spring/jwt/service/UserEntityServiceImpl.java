@@ -15,7 +15,7 @@ import xyz.catuns.spring.jwt.dto.UserResponse;
 import xyz.catuns.spring.jwt.mapper.UserEntityMapper;
 import xyz.catuns.spring.jwt.repository.UserEntityRepository;
 import xyz.catuns.spring.jwt.security.jwt.JwtProperties;
-import xyz.catuns.spring.jwt.security.jwt.JwtToken;
+import xyz.catuns.spring.jwt.security.jwt.JwtTokenUtil;
 import xyz.catuns.spring.jwt.model.UserEntity;
 
 public class UserEntityServiceImpl implements UserEntityService {
@@ -54,8 +54,8 @@ public class UserEntityServiceImpl implements UserEntityService {
             throw new BadCredentialsException("Username or password is incorrect");
         }
         String email = ((UserDetails) auth.getPrincipal()).getUsername();
-        String roles = JwtToken.extractAuthorities(auth);
-        String token = new JwtToken(jwtProperties.issuer(), jwtProperties.expiration())
+        String roles = JwtTokenUtil.extractAuthorities(auth);
+        String token = new JwtTokenUtil(jwtProperties)
                 .generate(auth, jwtProperties.secret());
 
         return new LoginResponse(token, email, roles);

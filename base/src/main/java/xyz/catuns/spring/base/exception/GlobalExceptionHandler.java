@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    protected static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessage> genericExceptionHandler(
@@ -27,6 +27,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(errorMessage.getStatusCode())
                 .body(errorMessage);
     }
+
     @ExceptionHandler(ControllerException.class)
     public ResponseEntity<ErrorMessage> controllerExceptionHandler(
             ControllerException e,

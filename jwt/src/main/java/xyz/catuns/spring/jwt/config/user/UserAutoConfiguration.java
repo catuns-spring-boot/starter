@@ -1,6 +1,8 @@
 package xyz.catuns.spring.jwt.config.user;
 
 
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -20,5 +22,11 @@ public class UserAutoConfiguration {
     @ConditionalOnMissingBean(UserDetailsService.class)
     public UserDetailsService defaultUserDetailsService(UserEntityRepository userEntityRepository) {
         return new DefaultUserDetailsService(userEntityRepository);
+    }
+
+    @Bean
+    public BeanDefinitionRegistryPostProcessor entityPackageRegistrar() {
+        return registry ->
+                AutoConfigurationPackages.register(registry, "xyz.catuns.spring.jwt.model");
     }
 }

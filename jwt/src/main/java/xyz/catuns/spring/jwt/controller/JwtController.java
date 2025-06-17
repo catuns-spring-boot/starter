@@ -13,9 +13,8 @@ import xyz.catuns.spring.jwt.controller.request.UserRegistration;
 import xyz.catuns.spring.jwt.controller.request.UserUpdate;
 import xyz.catuns.spring.jwt.dto.LoginResponse;
 import xyz.catuns.spring.jwt.dto.UserResponse;
+import xyz.catuns.spring.jwt.security.jwt.Constants;
 import xyz.catuns.spring.jwt.service.UserEntityService;
-
-import static xyz.catuns.spring.jwt.security.jwt.JwtConstants.JWT_HEADER;
 
 public class JwtController {
 
@@ -48,7 +47,7 @@ public class JwtController {
     public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody UserLogin userLogin){
         LoginResponse loginResponse = userService.loginUser(userLogin);
         return ResponseEntity.status(HttpStatus.OK)
-                .header(JWT_HEADER, loginResponse.accessToken())
+                .header(Constants.Jwt.HEADER, loginResponse.accessToken())
                 .body(loginResponse);
     }
 

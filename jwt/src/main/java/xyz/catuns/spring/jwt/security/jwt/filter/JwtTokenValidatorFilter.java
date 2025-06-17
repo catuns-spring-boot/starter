@@ -4,17 +4,16 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.core.env.Environment;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import xyz.catuns.spring.jwt.security.jwt.JwtToken;
+import xyz.catuns.spring.jwt.security.jwt.JwtTokenUtil;
 
 import java.io.IOException;
 
-import static xyz.catuns.spring.jwt.security.jwt.JwtConstants.*;
+import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.HEADER;
 
 public class JwtTokenValidatorFilter extends OncePerRequestFilter {
 
@@ -50,14 +49,10 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        String jwtToken = request.getHeader(JWT_HEADER);
+        String jwtToken = request.getHeader(HEADER);
         if (jwtToken != null) {
             try {
-                Environment env = getEnvironment();
-                String secret = env.getProperty(JWT_SECRET_KEY, JWT_SECRET_DEFAULT_VALUE);
-                String issuer = env.getProperty(JWT_ISSUER_KEY, "");
-                Long expiration = Long.parseLong(env.getProperty(JWT_EXPIRATION_KEY, String.valueOf(36_000_000)));
-                Authentication authentication = new JwtToken(issuer, expiration).validate(jwtToken, secret);
+                Authentication authentication = new JwtTokenUtil(getEnvironment()).validate(jwtToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception exception) {
                 throw new BadCredentialsException("Invalid token received", exception);
