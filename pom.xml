@@ -21,6 +21,7 @@
         <module>parent</module>
         <module>base</module>
         <module>jwt</module>
+        <module>test-starter</module>
     </modules>
 
     <url/>

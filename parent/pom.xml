@@ -31,6 +31,11 @@
             </dependency>
             <dependency>
                 <groupId>xyz.catuns.spring</groupId>
+                <artifactId>catuns-spring-boot-starter-test</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>xyz.catuns.spring</groupId>
                 <artifactId>catuns-spring-boot-starter-jwt</artifactId>
                 <version>${revision}</version>
             </dependency>
