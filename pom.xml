@@ -11,7 +11,7 @@
 
     <groupId>xyz.catuns.spring</groupId>
     <artifactId>catuns-spring-boot-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
 
     <name>starter</name>
     <description>Catuns.xyz spring boot starter repository </description>
@@ -21,6 +21,7 @@
         <module>parent</module>
         <module>base</module>
         <module>jwt</module>
+        <module>test-starter</module>
     </modules>
 
     <url/>
@@ -44,6 +45,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <revision>0.0.1-SNAPSHOT</revision>
     </properties>
 
     <distributionManagement>
