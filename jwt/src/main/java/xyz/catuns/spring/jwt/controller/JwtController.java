@@ -47,7 +47,7 @@ public class JwtController {
     public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody UserLogin userLogin){
         LoginResponse loginResponse = userService.loginUser(userLogin);
         return ResponseEntity.status(HttpStatus.OK)
-                .header(Constants.Jwt.AUTHORIZATION_HEADER_KEY, loginResponse.accessToken())
+                .header(Constants.Jwt.AUTHORIZATION_HEADER_KEY, loginResponse.token().value())
                 .body(loginResponse);
     }
 

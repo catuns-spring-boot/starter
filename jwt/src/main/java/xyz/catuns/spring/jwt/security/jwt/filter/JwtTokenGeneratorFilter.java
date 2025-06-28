@@ -50,7 +50,7 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             JwtToken jwtToken = new JwtTokenUtil(getEnvironment()).generate(auth);
-            response.setHeader(AUTHORIZATION_HEADER_KEY, jwtToken.accessToken());
+            response.setHeader(AUTHORIZATION_HEADER_KEY, jwtToken.value());
             response.setHeader(EXPIRATION_HEADER_KEY, jwtToken.expiration().toString());
         }
         filterChain.doFilter(request, response);

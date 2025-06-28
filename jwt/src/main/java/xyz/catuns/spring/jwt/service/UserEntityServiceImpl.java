@@ -15,6 +15,7 @@ import xyz.catuns.spring.jwt.dto.UserResponse;
 import xyz.catuns.spring.jwt.mapper.UserEntityMapper;
 import xyz.catuns.spring.jwt.repository.UserEntityRepository;
 import xyz.catuns.spring.jwt.security.jwt.JwtProperties;
+import xyz.catuns.spring.jwt.security.jwt.JwtToken;
 import xyz.catuns.spring.jwt.security.jwt.JwtTokenUtil;
 import xyz.catuns.spring.jwt.model.UserEntity;
 
@@ -55,7 +56,7 @@ public class UserEntityServiceImpl implements UserEntityService {
         }
         String email = ((UserDetails) auth.getPrincipal()).getUsername();
         String roles = JwtTokenUtil.extractAuthorities(auth);
-        String token = new JwtTokenUtil(jwtProperties)
+        JwtToken token = new JwtTokenUtil(jwtProperties)
                 .generate(auth, jwtProperties.secret());
 
         return new LoginResponse(token, email, roles);
