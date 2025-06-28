@@ -18,11 +18,11 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         String message = String.format("[%s]: %s", e.getClass().getSimpleName(), e.getMessage());
-        log.error(message);
         ErrorMessage errorMessage = new ErrorMessage(
                 request.getRequestURI(),
                 message
         );
+        log.debug("{} {}", request.getMethod(), errorMessage);
 
         return ResponseEntity.status(errorMessage.getStatusCode())
                 .body(errorMessage);

@@ -7,34 +7,34 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import xyz.catuns.spring.base.dto.PageList;
 import xyz.catuns.spring.base.mapper.EntityMapper;
 
-public abstract class CrudService <Entity, PrimaryKey, Details, Creation, Editor> {
+public abstract class CrudService <Entity, PrimaryKey, EntityDTO, CreationDTO, EditDTO> {
 
-    protected final EntityMapper<Entity, Details, Creation, Editor> mapper;
+    protected final EntityMapper<Entity, EntityDTO, CreationDTO, EditDTO> mapper;
     protected final JpaRepository<Entity, PrimaryKey> repository;
 
-    public CrudService(JpaRepository<Entity, PrimaryKey> repository, EntityMapper<Entity, Details, Creation, Editor> mapper) {
+    public CrudService(JpaRepository<Entity, PrimaryKey> repository, EntityMapper<Entity, EntityDTO, CreationDTO, EditDTO> mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
 
-    public PageList<Details> getAll(PageRequest pageRequest) {
+    public PageList<EntityDTO> getAll(PageRequest pageRequest) {
         Page<Entity> all = repository.findAll(pageRequest);
         return mapper.toPageList(all);
     }
 
-    public Details getOne(PrimaryKey id) {
+    public EntityDTO getOne(PrimaryKey id) {
         Entity entity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("entity id " + id));
         return mapper.toDetails(entity);
     }
 
-    public Details create(Creation creation) {
-        Entity entity = mapper.map(creation);
+    public EntityDTO create(CreationDTO creationDTO) {
+        Entity entity = mapper.map(creationDTO);
         entity = repository.save(entity);
         return mapper.toDetails(entity);
     }
 
-    public Details edit(PrimaryKey id, Editor edit) {
+    public EntityDTO edit(PrimaryKey id, EditDTO edit) {
         Entity entity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("entity id " + id));
         mapper.update(entity, edit);

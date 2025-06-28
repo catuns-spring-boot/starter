@@ -13,6 +13,14 @@ import java.util.Map;
 
 @Getter
 public class ErrorMessage {
+    private static ObjectMapper mapper;
+
+    static {
+        mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    }
+
     private final String path;
     private final String message;
     private final HttpStatus statusCode;
@@ -34,18 +42,27 @@ public class ErrorMessage {
     }
 
     public String toJson() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.registerModule(new JavaTimeModule());
 
         final Map<String, Object> map = new HashMap<>();
         map.put("path", path);
         map.put("message", message);
         map.put("statusCode", statusCode);
         map.put("timestamp", timestamp);
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         String json = mapper.writeValueAsString(map);
-        mapper = null;
+//        mapper = null;
         return json;
     }
 
+    @Override
+    public String toString() {
+        return "ErrorMessage{" +
+                "path='" + path + '\'' +
+                ", message='" + message + '\'' +
+                ", statusCode=" + statusCode +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }
