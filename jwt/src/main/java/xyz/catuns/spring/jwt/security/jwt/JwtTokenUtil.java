@@ -35,20 +35,25 @@ public class JwtTokenUtil {
         issuer = jwtProperties.issuer();
     }
 
-    public String generate(Authentication auth) {
+    public JwtToken generate(Authentication auth) {
         return generate(auth, this.secret);
     }
 
-    public String generate(Authentication auth, String jwtSecret) {
+    public JwtToken generate(Authentication auth, String jwtSecret) {
         SecretKey secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
-        return Jwts.builder()
+        Date issuedAt = new Date();
+        Date expiration = new Date(issuedAt.getTime() + this.tokenExpiration);
+        String token = Jwts.builder()
                 .issuer(issuer)
                 .subject(auth.getName())
                 .claim(USERNAME_KEY, auth.getName())
                 .claim(AUTHORITY_KEY, extractAuthorities(auth))
-                .issuedAt(new Date())
-                .expiration(this.expiration())
-                .signWith(secretKey).compact();
+                .issuedAt(issuedAt)
+                .expiration(expiration)
+                .signWith(secretKey)
+                .compact();
+
+        return new JwtToken(token, expiration);
     }
 
     public Authentication validate(String token) {
@@ -63,11 +68,6 @@ public class JwtTokenUtil {
         String authorities = String.valueOf(claims.get(AUTHORITY_KEY));
         return new UsernamePasswordAuthenticationToken(username, null,
                 AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
-    }
-
-    private Date expiration() {
-        long nowMillis = System.currentTimeMillis();
-        return new Date(nowMillis + tokenExpiration);
     }
 
     public static String extractAuthorities(Authentication auth) {

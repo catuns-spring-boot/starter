@@ -6,11 +6,12 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.5.0</version>
+        <relativePath />
     </parent>
 
     <groupId>xyz.catuns.spring</groupId>
     <artifactId>catuns-spring-boot-starter</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <name>starter</name>
     <description>Catuns.xyz spring boot starter repository </description>

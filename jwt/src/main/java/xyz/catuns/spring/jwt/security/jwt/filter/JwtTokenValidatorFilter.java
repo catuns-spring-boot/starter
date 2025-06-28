@@ -13,7 +13,7 @@ import xyz.catuns.spring.jwt.security.jwt.JwtTokenUtil;
 
 import java.io.IOException;
 
-import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.HEADER;
+import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.AUTHORIZATION_HEADER_KEY;
 
 public class JwtTokenValidatorFilter extends OncePerRequestFilter {
 
@@ -49,7 +49,7 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        String jwtToken = request.getHeader(HEADER);
+        String jwtToken = request.getHeader(AUTHORIZATION_HEADER_KEY);
         if (jwtToken != null) {
             try {
                 Authentication authentication = new JwtTokenUtil(getEnvironment()).validate(jwtToken);
