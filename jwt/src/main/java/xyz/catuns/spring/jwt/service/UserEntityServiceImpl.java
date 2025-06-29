@@ -59,7 +59,7 @@ public class UserEntityServiceImpl implements UserEntityService {
         JwtToken token = new JwtTokenUtil(jwtProperties)
                 .generate(auth, jwtProperties.secret());
 
-        return new LoginResponse(token, email, roles);
+        return new LoginResponse(token.value(), token.expiration(), email, roles);
     }
 
     private Authentication authenticateLogin(UserLogin userLogin) {
