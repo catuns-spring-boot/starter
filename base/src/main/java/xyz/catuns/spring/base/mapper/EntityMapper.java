@@ -5,7 +5,7 @@ import org.mapstruct.*;
 import org.springframework.data.domain.Page;
 import xyz.catuns.spring.base.dto.PageList;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Child interfaces should be annotated {@link Mapper}
@@ -26,7 +26,7 @@ public interface EntityMapper<T, D, C, E> {
 
     D toDetails(T entity);
 
-    List<D> toDetailsList(List<T> entity);
+    Collection<D> toDetails(Collection<T> entity);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void update(@MappingTarget T entity, E edit);

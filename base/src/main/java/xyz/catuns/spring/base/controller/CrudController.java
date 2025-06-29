@@ -1,4 +1,4 @@
-package xyz.catuns.spring.base;
+package xyz.catuns.spring.base.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

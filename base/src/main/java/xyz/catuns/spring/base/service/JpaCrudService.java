@@ -7,14 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import xyz.catuns.spring.base.dto.PageList;
 import xyz.catuns.spring.base.mapper.EntityMapper;
 
-public abstract class SimpleCrudService<Entity, PrimaryKey, EntityDTO, CreationDTO, EditDTO>
+public abstract class JpaCrudService<Entity, PrimaryKey, EntityDTO, CreationDTO, EditDTO>
         implements CrudService<Entity, PrimaryKey, EntityDTO, CreationDTO, EditDTO>
 {
 
     protected final EntityMapper<Entity, EntityDTO, CreationDTO, EditDTO> mapper;
     protected final JpaRepository<Entity, PrimaryKey> repository;
 
-    public SimpleCrudService(JpaRepository<Entity, PrimaryKey> repository, EntityMapper<Entity, EntityDTO, CreationDTO, EditDTO> mapper) {
+    public JpaCrudService(JpaRepository<Entity, PrimaryKey> repository, EntityMapper<Entity, EntityDTO, CreationDTO, EditDTO> mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
