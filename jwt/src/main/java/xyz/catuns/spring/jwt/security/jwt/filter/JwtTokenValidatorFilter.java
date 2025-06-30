@@ -18,13 +18,15 @@ import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.AUTHORIZATION_HEA
 public class JwtTokenValidatorFilter extends OncePerRequestFilter {
 
     private final String shouldNotFilterPath;
+    private final JwtTokenUtil jwtTokenUtil;
 
     /**
      *
      * @param shouldNotFilterPath the path that should not be filtered. eg: `/api/users/user`
      */
-    public JwtTokenValidatorFilter(String shouldNotFilterPath) {
+    public JwtTokenValidatorFilter(JwtTokenUtil jwtTokenUtil, String shouldNotFilterPath) {
         this.shouldNotFilterPath = shouldNotFilterPath;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
 
     /**
@@ -32,8 +34,8 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
      * Sets the default path that should not be filtered to `/api/users/user`
      *
      */
-    public JwtTokenValidatorFilter() {
-        this.shouldNotFilterPath = "/api/users/user";
+    public JwtTokenValidatorFilter(JwtTokenUtil jwtTokenUtil) {
+        this(jwtTokenUtil, "/api/users/user");
     }
 
     /**
@@ -52,7 +54,7 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
         String jwtToken = request.getHeader(AUTHORIZATION_HEADER_KEY);
         if (jwtToken != null) {
             try {
-                Authentication authentication = new JwtTokenUtil(getEnvironment()).validate(jwtToken);
+                Authentication authentication = jwtTokenUtil.validate(jwtToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception exception) {
                 throw new BadCredentialsException("Invalid token received", exception);

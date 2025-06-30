@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -22,7 +21,7 @@ import xyz.catuns.spring.base.exception.GlobalAuthenticationEntryPoint;
 import xyz.catuns.spring.jwt.repository.UserEntityRepository;
 import xyz.catuns.spring.jwt.security.UsernameAuthenticationProvider;
 import xyz.catuns.spring.jwt.security.cors.DefaultCorsConfigurationHandler;
-import xyz.catuns.spring.jwt.security.jwt.JwtProperties;
+import xyz.catuns.spring.jwt.security.jwt.JwtTokenUtil;
 import xyz.catuns.spring.jwt.security.jwt.filter.JwtTokenGeneratorFilter;
 import xyz.catuns.spring.jwt.security.jwt.filter.JwtTokenValidatorFilter;
 import xyz.catuns.spring.jwt.service.UserEntityService;
@@ -33,12 +32,11 @@ import xyz.catuns.spring.jwt.service.UserEntityServiceImpl;
 @ConditionalOnProperty(prefix = "auth.jwt", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class JwtSecurityAutoConfiguration {
 
-//    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtTokenUtil jwtTokenUtil) throws Exception {
         return http
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
-                .addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new JwtTokenGeneratorFilter(jwtTokenUtil), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtTokenValidatorFilter(jwtTokenUtil), BasicAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(c -> c.configurationSource(new DefaultCorsConfigurationHandler()))
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -85,13 +83,13 @@ public class JwtSecurityAutoConfiguration {
             UserEntityRepository userRepository,
             PasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager,
-            JwtProperties jwtProperties
+            JwtTokenUtil jwtTokenUtil
     ) {
         return new UserEntityServiceImpl(
                 userRepository,
                 passwordEncoder,
                 authenticationManager,
-                jwtProperties
+                jwtTokenUtil
         );
     }
 }
