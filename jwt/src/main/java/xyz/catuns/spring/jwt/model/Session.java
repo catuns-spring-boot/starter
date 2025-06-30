@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "session", schema = "user_entity")
+@Table(name = "session")
 public class Session {
 
     @Id

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "verification_token", schema = "user_entity", uniqueConstraints = {
+@Table(name = "verification_token", uniqueConstraints = {
         @UniqueConstraint(name = "uc_identifier_token", columnNames = {"identifier", "token"})
 })
 public class VerificationToken {

@@ -2,11 +2,10 @@ package xyz.catuns.spring.jwt.config.jwt;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -29,42 +28,37 @@ import xyz.catuns.spring.jwt.security.jwt.filter.JwtTokenValidatorFilter;
 import xyz.catuns.spring.jwt.service.UserEntityService;
 import xyz.catuns.spring.jwt.service.UserEntityServiceImpl;
 
+@EnableMethodSecurity
 @AutoConfiguration
 @ConditionalOnProperty(prefix = "auth.jwt", name = "enabled", havingValue = "true", matchIfMissing = true)
-@EnableMethodSecurity
 public class JwtSecurityAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        return http
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
-                .authorizeHttpRequests(requests -> requests
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(c -> c.configurationSource(new DefaultCorsConfigurationHandler()))
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(hbc -> hbc.authenticationEntryPoint(new GlobalAuthenticationEntryPoint()))
+                .exceptionHandling(handler -> handler
+                        .authenticationEntryPoint(new GlobalAuthenticationEntryPoint())
+                        .accessDeniedHandler(new GlobalAccessDeniedHandler()))
+                .authorizeHttpRequests(r -> r
+                        .requestMatchers("/api/users/user").authenticated()
                         .requestMatchers(
-                                "/api/users/user"
-                        ).authenticated()
-                        .requestMatchers(
-                                "/swagger-ui.html",
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**",
+                                "/swagger/index.html",
+                                "/v3/api/docs/**",
                                 "/error",
+                                "/h2-console/**",
+                                "/actuator/health",
                                 "/api/users/login",
-                                "/api/users/register")
-                        .permitAll()
-                        .anyRequest().authenticated());
-
-        http.cors(corsConfig -> corsConfig.configurationSource(new DefaultCorsConfigurationHandler()));
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.formLogin(AbstractHttpConfigurer::disable);
-        http.httpBasic(hbc -> hbc.authenticationEntryPoint(new GlobalAuthenticationEntryPoint()));
-        http.exceptionHandling(handler -> handler
-                .authenticationEntryPoint(new GlobalAuthenticationEntryPoint())
-                .accessDeniedHandler(new GlobalAccessDeniedHandler())
-        );
-
-        return http.build();
+                                "/api/users/register").permitAll()
+                        .anyRequest().authenticated())
+                .build();
     }
 
     @Bean
@@ -80,7 +74,6 @@ public class JwtSecurityAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }

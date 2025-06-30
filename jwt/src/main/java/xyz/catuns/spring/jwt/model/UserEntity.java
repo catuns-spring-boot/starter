@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "user_entity", schema = "user_entity")
+@Table(name = "user_entity")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class UserEntity {
 
@@ -55,13 +55,8 @@ public class UserEntity {
 
         Arrays.stream(roleName)
                 .map(UserRoleAuthority::of)
-//                .peek(this::setRoleUser)
                 .forEach(this::addRole);
     }
-
-//    private void setRoleUser(UserRoleAuthority userRoleAuthority) {
-//        userRoleAuthority.
-//    }
 
     private void addRole(UserRoleAuthority userRoleAuthority) {
         this.roles.add(userRoleAuthority);
