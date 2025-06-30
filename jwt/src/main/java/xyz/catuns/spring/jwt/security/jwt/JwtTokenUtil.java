@@ -42,19 +42,23 @@ public class JwtTokenUtil {
 
     public JwtToken generate(Authentication auth, String jwtSecret) {
         SecretKey secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
-        Date issuedAt = new Date();
-        Date expiration = new Date(issuedAt.getTime() + this.tokenExpiration);
+        Date expiration = this.getExpiration();
         String token = Jwts.builder()
                 .issuer(issuer)
                 .subject(auth.getName())
                 .claim(USERNAME_KEY, auth.getName())
                 .claim(AUTHORITY_KEY, extractAuthorities(auth))
-                .issuedAt(issuedAt)
+                .issuedAt(new Date())
                 .expiration(expiration)
                 .signWith(secretKey)
                 .compact();
 
         return new JwtToken(token, expiration);
+    }
+
+    private Date getExpiration() {
+        long now = System.currentTimeMillis();
+        return new Date(now + this.tokenExpiration);
     }
 
     public Authentication validate(String token) {

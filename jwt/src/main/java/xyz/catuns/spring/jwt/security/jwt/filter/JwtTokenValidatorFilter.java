@@ -17,6 +17,8 @@ import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.AUTHORIZATION_HEA
 
 public class JwtTokenValidatorFilter extends OncePerRequestFilter {
 
+    private static final String PREFIX = "Bearer ";
+
     private final String shouldNotFilterPath;
     private final JwtTokenUtil jwtTokenUtil;
 
@@ -54,6 +56,9 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
         String jwtToken = request.getHeader(AUTHORIZATION_HEADER_KEY);
         if (jwtToken != null) {
             try {
+                if (jwtToken.regionMatches(true, 0, PREFIX, 0, PREFIX.length())) {
+                    jwtToken = jwtToken.substring(PREFIX.length()).trim();
+                }
                 Authentication authentication = jwtTokenUtil.validate(jwtToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception exception) {
