@@ -1,5 +1,6 @@
 package xyz.catuns.spring.jwt.config.jwt;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -28,11 +29,10 @@ import xyz.catuns.spring.jwt.security.jwt.filter.JwtTokenValidatorFilter;
 import xyz.catuns.spring.jwt.service.UserEntityService;
 import xyz.catuns.spring.jwt.service.UserEntityServiceImpl;
 
-@Configuration
+@AutoConfiguration
 @ConditionalOnProperty(prefix = "auth.jwt", name = "enabled", havingValue = "true", matchIfMissing = true)
 @EnableMethodSecurity
 public class JwtSecurityAutoConfiguration {
-
 
     @Bean
     @ConditionalOnMissingBean
