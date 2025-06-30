@@ -34,9 +34,12 @@ public class UserEntity {
     @Column(name = "pwd_hash", nullable = false)
     protected String password;
 
-
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Convert(converter = UserRoleConverter.class)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     protected final Set<UserRole> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
