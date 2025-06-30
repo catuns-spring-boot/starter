@@ -21,6 +21,7 @@ import xyz.catuns.spring.base.exception.GlobalAuthenticationEntryPoint;
 import xyz.catuns.spring.jwt.repository.UserEntityRepository;
 import xyz.catuns.spring.jwt.security.UsernameAuthenticationProvider;
 import xyz.catuns.spring.jwt.security.cors.DefaultCorsConfigurationHandler;
+import xyz.catuns.spring.jwt.security.jwt.JwtProperties;
 import xyz.catuns.spring.jwt.security.jwt.JwtTokenUtil;
 import xyz.catuns.spring.jwt.security.jwt.filter.JwtTokenGeneratorFilter;
 import xyz.catuns.spring.jwt.security.jwt.filter.JwtTokenValidatorFilter;
@@ -91,5 +92,10 @@ public class JwtSecurityAutoConfiguration {
                 authenticationManager,
                 jwtTokenUtil
         );
+    }
+
+    @Bean
+    public JwtTokenUtil jwtTokenUtil(JwtProperties properties) {
+        return new JwtTokenUtil(properties);
     }
 }

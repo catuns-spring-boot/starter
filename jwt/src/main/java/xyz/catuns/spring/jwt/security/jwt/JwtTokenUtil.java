@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.*;
 
-@Service
 public class JwtTokenUtil {
 
     private final String issuer;
