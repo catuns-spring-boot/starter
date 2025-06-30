@@ -33,7 +33,7 @@ import xyz.catuns.spring.jwt.service.UserEntityServiceImpl;
 @ConditionalOnProperty(prefix = "auth.jwt", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class JwtSecurityAutoConfiguration {
 
-    @Bean
+//    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
