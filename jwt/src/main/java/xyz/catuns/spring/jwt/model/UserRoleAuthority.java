@@ -45,4 +45,9 @@ public class UserRoleAuthority {
         role.name = roleName;
         return role;
     }
+
+    @Override
+    public String toString() {
+        return this.name.toUpperCase();
+    }
 }

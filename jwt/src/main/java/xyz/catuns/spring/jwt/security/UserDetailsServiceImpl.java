@@ -9,13 +9,14 @@ import xyz.catuns.spring.jwt.model.UserEntity;
 import xyz.catuns.spring.jwt.model.UserRoleAuthority;
 import xyz.catuns.spring.jwt.repository.UserEntityRepository;
 
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-public class DefaultUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserEntityRepository userEntityRepository;
 
-    public DefaultUserDetailsService(UserEntityRepository userEntityRepository) {
+    public UserDetailsServiceImpl(UserEntityRepository userEntityRepository) {
         this.userEntityRepository = userEntityRepository;
     }
 
@@ -29,9 +30,9 @@ public class DefaultUserDetailsService implements UserDetailsService {
         UserEntity user = userEntityRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
-        List<GrantedAuthority> authorities = user.getRoles().stream()
+        Set<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(UserRoleAuthority::asAuthority)
-                .toList();
+                .collect(Collectors.toSet());
 
         return new User(user.getEmail(), user.getPassword(), authorities);
     }

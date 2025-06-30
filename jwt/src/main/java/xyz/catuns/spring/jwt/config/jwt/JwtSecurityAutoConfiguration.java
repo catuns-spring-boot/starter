@@ -29,7 +29,6 @@ import xyz.catuns.spring.jwt.service.UserEntityService;
 import xyz.catuns.spring.jwt.service.UserEntityServiceImpl;
 
 @Configuration
-@ConditionalOnClass({SecurityFilterChain.class})
 @ConditionalOnProperty(prefix = "auth.jwt", name = "enabled", havingValue = "true", matchIfMissing = true)
 @EnableMethodSecurity
 public class JwtSecurityAutoConfiguration {
