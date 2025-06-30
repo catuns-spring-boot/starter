@@ -1,16 +1,16 @@
 package xyz.catuns.spring.jwt.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
+@Data
 @Entity
-@Table(name = "user_role_authority", schema = "user_entity")
-public class UserRoleAuthority {
+@Table(name = "roles")
+public class UserRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +19,7 @@ public class UserRoleAuthority {
     @Column(name = "name", nullable = false)
     protected String name;
 
-    @ManyToMany(mappedBy = "roles")
-    protected Set<UserEntity> users = new HashSet<>();
-
-    public GrantedAuthority asAuthority() {
+    public GrantedAuthority toAuthority() {
         final String roleName = ("ROLE_" + name).toUpperCase();
         return new SimpleGrantedAuthority(roleName);
     }
@@ -31,8 +28,19 @@ public class UserRoleAuthority {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserRoleAuthority that = (UserRoleAuthority) o;
+        UserRole that = (UserRole) o;
         return Objects.equals(name, that.name);
+    }
+
+    public UserRole(String name) {
+        setName(name);
+    }
+
+    public UserRole() {}
+
+
+    public void setName(String name) {
+        this.name = name.trim().toUpperCase();
     }
 
     @Override
@@ -40,9 +48,9 @@ public class UserRoleAuthority {
         return Objects.hashCode(name);
     }
 
-    public static UserRoleAuthority of(String roleName) {
-        final UserRoleAuthority role = new UserRoleAuthority();
-        role.name = roleName;
-        return role;
+
+    @Override
+    public String toString() {
+        return this.name.toUpperCase();
     }
 }

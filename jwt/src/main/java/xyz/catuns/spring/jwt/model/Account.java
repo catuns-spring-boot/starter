@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "account", schema = "user_entity", uniqueConstraints = {
+@Table(name = "account", uniqueConstraints = {
         @UniqueConstraint(name = "uc_provider_account_id",
                 columnNames = {"provider", "providerAccountId"}
         )

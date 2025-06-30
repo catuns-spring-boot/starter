@@ -26,18 +26,18 @@ public class UserEntityServiceImpl implements UserEntityService {
     private final UserEntityRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final JwtProperties jwtProperties;
+    private final JwtTokenUtil jwtTokenUtil;
 
     public UserEntityServiceImpl(
             UserEntityRepository userRepository,
             PasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager,
-            JwtProperties jwtProperties
+            JwtTokenUtil jwtTokenUtil
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
-        this.jwtProperties = jwtProperties;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
 
     @Override
@@ -56,10 +56,9 @@ public class UserEntityServiceImpl implements UserEntityService {
         }
         String email = ((UserDetails) auth.getPrincipal()).getUsername();
         String roles = JwtTokenUtil.extractAuthorities(auth);
-        JwtToken token = new JwtTokenUtil(jwtProperties)
-                .generate(auth, jwtProperties.secret());
+        JwtToken token = jwtTokenUtil.generate(auth);
 
-        return new LoginResponse(token, email, roles);
+        return new LoginResponse(token.value(), token.expiration(), email, roles);
     }
 
     private Authentication authenticateLogin(UserLogin userLogin) {

@@ -18,13 +18,16 @@ import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.*;
 public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
 
     private final String shouldFilterPath;
+    private final JwtTokenUtil jwtTokenUtil;
+
 
     /**
      *
      * @param shouldFilterPath the paths that should be filtered. eg: `/api/users/user`
      */
-    public JwtTokenGeneratorFilter(String shouldFilterPath) {
+    public JwtTokenGeneratorFilter(JwtTokenUtil jwtTokenUtil, String shouldFilterPath) {
         this.shouldFilterPath = shouldFilterPath;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
 
     /**
@@ -32,8 +35,8 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
      * Sets the default path that should not be filtered to `/api/users/user`
      *
      */
-    public JwtTokenGeneratorFilter() {
-        this.shouldFilterPath = "/api/users/user";
+    public JwtTokenGeneratorFilter(JwtTokenUtil jwtTokenUtil) {
+        this(jwtTokenUtil, "/api/users/user");
     }
 
     /**
@@ -49,8 +52,8 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
-            JwtToken jwtToken = new JwtTokenUtil(getEnvironment()).generate(auth);
-            response.setHeader(AUTHORIZATION_HEADER_KEY, jwtToken.value());
+            JwtToken jwtToken = jwtTokenUtil.generate(auth);
+            response.setHeader(AUTHORIZATION_HEADER_KEY, "Bearer ".concat(jwtToken.value()));
             response.setHeader(EXPIRATION_HEADER_KEY, jwtToken.expiration().toString());
         }
         filterChain.doFilter(request, response);
