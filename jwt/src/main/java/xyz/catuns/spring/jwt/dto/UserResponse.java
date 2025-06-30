@@ -2,7 +2,7 @@ package xyz.catuns.spring.jwt.dto;
 
 import xyz.catuns.spring.jwt.model.Account;
 import xyz.catuns.spring.jwt.model.Session;
-import xyz.catuns.spring.jwt.model.UserRoleAuthority;
+import xyz.catuns.spring.jwt.model.UserRole;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ public record UserResponse(
         String username,
         String email,
         LocalDateTime createdAt,
-        Set<UserRoleAuthority> roles,
+        Set<UserRole> roles,
         Set<Account> accounts,
         Set<Session> sessions
 ) implements Serializable {

@@ -1,8 +1,13 @@
 package xyz.catuns.spring.jwt.model;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+import xyz.catuns.spring.jwt.config.converter.UserRoleConverter;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -16,8 +21,8 @@ import java.util.Set;
 public class UserEntity {
 
     @Id
+    @Setter(value = AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     protected Long id;
 
     @Column(name = "username")
@@ -29,41 +34,29 @@ public class UserEntity {
     @Column(name = "pwd_hash", nullable = false)
     protected String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "users_roles",
-            schema = "user_entity",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    protected Set<UserRoleAuthority> roles = new HashSet<>();
+
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Convert(converter = UserRoleConverter.class)
+    protected final Set<UserRole> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    protected Set<Account> accounts = new HashSet<>();
+    protected final Set<Account> accounts = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    protected Set<Session> sessions = new HashSet<>();
+    protected final Set<Session> sessions = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")
     protected LocalDateTime createdAt;
 
     public void addRoles(String... roleName) {
-        if (roles == null) {
-            roles = new HashSet<>();
-        }
-
         Arrays.stream(roleName)
-                .map(UserRoleAuthority::of)
+                .map(UserRole::new)
                 .forEach(this::addRole);
     }
 
-    private void addRole(UserRoleAuthority userRoleAuthority) {
-        this.roles.add(userRoleAuthority);
-    }
-
-    protected void setId(Long id) {
-        this.id = id;
+    private void addRole(UserRole userRole) {
+        this.roles.add(userRole);
     }
 
 }

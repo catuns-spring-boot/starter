@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import xyz.catuns.spring.jwt.model.UserEntity;
-import xyz.catuns.spring.jwt.model.UserRoleAuthority;
+import xyz.catuns.spring.jwt.model.UserRole;
 import xyz.catuns.spring.jwt.repository.UserEntityRepository;
 
 import java.util.Set;
@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
         Set<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(UserRoleAuthority::asAuthority)
+                .map(UserRole::toAuthority)
                 .collect(Collectors.toSet());
 
         return new User(user.getEmail(), user.getPassword(), authorities);
