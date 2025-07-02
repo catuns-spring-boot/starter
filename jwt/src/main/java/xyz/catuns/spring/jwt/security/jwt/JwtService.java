@@ -3,12 +3,10 @@ package xyz.catuns.spring.jwt.security.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -17,30 +15,20 @@ import java.util.stream.Collectors;
 
 import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.*;
 
-public class JwtTokenUtil {
+public class JwtService {
 
     private final String issuer;
     private final long tokenExpiration;
     private final String secret;
-//
-//    public JwtTokenUtil(Environment env) {
-//        secret = env.getProperty(SECRET_KEY, SECRET_DEFAULT_VALUE);
-//        issuer = env.getProperty(ISSUER_KEY, ISSUER_DEFAULT_VALUE);
-//        tokenExpiration = Long.parseLong(env.getProperty(EXPIRATION_KEY, EXPIRATION_DEFAULT_VALUE));
-//    }
 
-    public JwtTokenUtil(JwtProperties jwtProperties) {
+    public JwtService(JwtProperties jwtProperties) {
         secret = jwtProperties.secret();
         tokenExpiration = jwtProperties.expiration();
         issuer = jwtProperties.issuer();
     }
 
     public JwtToken generate(Authentication auth) {
-        return generate(auth, this.secret);
-    }
-
-    public JwtToken generate(Authentication auth, String jwtSecret) {
-        SecretKey secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+        SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         Date expiration = this.getExpiration();
         String token = Jwts.builder()
                 .issuer(issuer)
@@ -61,11 +49,7 @@ public class JwtTokenUtil {
     }
 
     public Authentication validate(String token) {
-        return validate(token, this.secret);
-    }
-
-    public Authentication validate(String token, String jwtSecret) {
-        SecretKey secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+        SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         Claims claims = Jwts.parser().verifyWith(secretKey).build()
                 .parseSignedClaims(token).getPayload();
         String username = String.valueOf(claims.get(USERNAME_KEY));
