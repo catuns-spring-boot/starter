@@ -1,4 +1,16 @@
 {
+  "groups": [
+    {
+      "name": "auth.jwt",
+      "type": "xyz.catuns.spring.jwt.security.jwt.JwtProperties",
+      "sourceType": "xyz.catuns.spring.jwt.security.jwt.JwtProperties"
+    },
+    {
+      "name": "auth.user",
+      "type": "xyz.catuns.spring.jwt.config.user.UserConfigurationProperties",
+      "sourceType": "xyz.catuns.spring.jwt.config.user.UserConfigurationProperties"
+    }
+  ],
   "properties": [
     {
       "name": "auth.jwt.secret",
@@ -24,21 +36,19 @@
       "defaultValue": "true"
     },
     {
-      "name": "auth.admin.enabled",
+      "name": "auth.user.enabled",
       "type": "java.lang.Boolean",
-      "description": "Enable default admin user",
+      "description": "Enable creating users",
       "defaultValue": "true"
     },
     {
-      "name": "auth.admin.email",
-      "type": "java.lang.String",
-      "description": "Admin user email",
-      "defaultValue": "admin@catuns.xyz"
-    },
-    {
-      "name": "auth.admin.password",
-      "type": "java.lang.String",
-      "description": "Admin user password"
+      "name": "auth.user.users",
+      "type": "java.util.List<xyz.catuns.spring.jwt.config.user.UserConfigurationProperties.User>",
+      "sourceType": "xyz.catuns.spring.jwt.config.user.UserConfigurationProperties",
+      "description": "List of users to create"
     }
+  ],
+  "hints": [
+
   ]
 }
