@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import xyz.catuns.spring.jwt.security.jwt.JwtToken;
-import xyz.catuns.spring.jwt.security.jwt.JwtTokenUtil;
+import xyz.catuns.spring.jwt.security.jwt.JwtService;
 
 import java.io.IOException;
 
@@ -18,16 +18,16 @@ import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.*;
 public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
 
     private final String shouldFilterPath;
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtService jwtService;
 
 
     /**
      *
      * @param shouldFilterPath the paths that should be filtered. eg: `/api/users/user`
      */
-    public JwtTokenGeneratorFilter(JwtTokenUtil jwtTokenUtil, String shouldFilterPath) {
+    public JwtTokenGeneratorFilter(JwtService jwtService, String shouldFilterPath) {
         this.shouldFilterPath = shouldFilterPath;
-        this.jwtTokenUtil = jwtTokenUtil;
+        this.jwtService = jwtService;
     }
 
     /**
@@ -35,8 +35,8 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
      * Sets the default path that should not be filtered to `/api/users/user`
      *
      */
-    public JwtTokenGeneratorFilter(JwtTokenUtil jwtTokenUtil) {
-        this(jwtTokenUtil, "/api/users/user");
+    public JwtTokenGeneratorFilter(JwtService jwtService) {
+        this(jwtService, "/api/users/user");
     }
 
     /**
@@ -52,7 +52,7 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
-            JwtToken jwtToken = jwtTokenUtil.generate(auth);
+            JwtToken jwtToken = jwtService.generate(auth);
             response.setHeader(AUTHORIZATION_HEADER_KEY, "Bearer ".concat(jwtToken.value()));
             response.setHeader(EXPIRATION_HEADER_KEY, jwtToken.expiration().toString());
         }

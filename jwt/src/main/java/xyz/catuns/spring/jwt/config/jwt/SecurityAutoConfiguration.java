@@ -1,13 +1,13 @@
 package xyz.catuns.spring.jwt.config.jwt;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,26 +18,25 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import xyz.catuns.spring.base.exception.GlobalAccessDeniedHandler;
 import xyz.catuns.spring.base.exception.GlobalAuthenticationEntryPoint;
+import xyz.catuns.spring.jwt.config.user.UserConfigurationProperties;
 import xyz.catuns.spring.jwt.repository.UserEntityRepository;
+import xyz.catuns.spring.jwt.security.UserDetailsServiceImpl;
 import xyz.catuns.spring.jwt.security.UsernameAuthenticationProvider;
 import xyz.catuns.spring.jwt.security.cors.DefaultCorsConfigurationHandler;
-import xyz.catuns.spring.jwt.security.jwt.JwtProperties;
-import xyz.catuns.spring.jwt.security.jwt.JwtTokenUtil;
+import xyz.catuns.spring.jwt.security.jwt.JwtService;
 import xyz.catuns.spring.jwt.security.jwt.filter.JwtTokenGeneratorFilter;
 import xyz.catuns.spring.jwt.security.jwt.filter.JwtTokenValidatorFilter;
-import xyz.catuns.spring.jwt.service.UserEntityService;
-import xyz.catuns.spring.jwt.service.UserEntityServiceImpl;
 
-@EnableMethodSecurity
 @AutoConfiguration
+@EnableConfigurationProperties(UserConfigurationProperties.class)
 @ConditionalOnProperty(prefix = "auth.jwt", name = "enabled", havingValue = "true", matchIfMissing = true)
-public class JwtSecurityAutoConfiguration {
+public class SecurityAutoConfiguration {
 
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtTokenUtil jwtTokenUtil) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtService jwtService) throws Exception {
         return http
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterAfter(new JwtTokenGeneratorFilter(jwtTokenUtil), BasicAuthenticationFilter.class)
-                .addFilterBefore(new JwtTokenValidatorFilter(jwtTokenUtil), BasicAuthenticationFilter.class)
+                .addFilterAfter(new JwtTokenGeneratorFilter(jwtService), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtTokenValidatorFilter(jwtService), BasicAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(c -> c.configurationSource(new DefaultCorsConfigurationHandler()))
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -61,10 +60,15 @@ public class JwtSecurityAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(UserDetailsService.class)
+    @ConditionalOnClass(UserEntityRepository.class)
+    public UserDetailsService defaultUserDetailsService(UserEntityRepository userEntityRepository) {
+        return new UserDetailsServiceImpl(userEntityRepository);
+    }
+
+    @Bean
     @ConditionalOnMissingBean
-    public AuthenticationManager authenticationManager(
-            UserDetailsService userDetailsService
-    ) {
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService) {
         UsernameAuthenticationProvider authProvider =
                 new UsernameAuthenticationProvider(userDetailsService);
         ProviderManager providerManager = new ProviderManager(authProvider);
@@ -73,29 +77,9 @@ public class JwtSecurityAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Bean
-    @ConditionalOnBean(UserEntityRepository.class)
-    @ConditionalOnMissingBean
-    public UserEntityService userEntityService(
-            UserEntityRepository userRepository,
-            PasswordEncoder passwordEncoder,
-            AuthenticationManager authenticationManager,
-            JwtTokenUtil jwtTokenUtil
-    ) {
-        return new UserEntityServiceImpl(
-                userRepository,
-                passwordEncoder,
-                authenticationManager,
-                jwtTokenUtil
-        );
-    }
-
-    @Bean
-    public JwtTokenUtil jwtTokenUtil(JwtProperties properties) {
-        return new JwtTokenUtil(properties);
-    }
 }

@@ -52,6 +52,13 @@ public class UserEntity {
     @Column(name = "created_at")
     protected LocalDateTime createdAt;
 
+    public UserEntity(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public UserEntity() {}
+
     public void addRoles(String... roleName) {
         Arrays.stream(roleName)
                 .map(UserRole::new)

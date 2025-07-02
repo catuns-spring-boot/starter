@@ -18,7 +18,7 @@ public interface EntityMapper<T, D, C, E> {
 
     @Mapping(target = "page", source = "pageable.pageNumber")
     @Mapping(target = "pageSize", source = "pageable.pageSize")
-    @Mapping(target = "items", source = "content")
+    @Mapping(target = "items", source = "content", defaultExpression = "java(new ArrayList<>())")
     PageList<D> toPageList(Page<T> page);
 
     @Mapping(target = "id", ignore = true)
