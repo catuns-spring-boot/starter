@@ -8,11 +8,11 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-@DataJpaTest(properties = {
-        "spring.banner.mode=off"
-})
+
+@DataJpaTest(properties = {})
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public abstract class RepositoryTest<T extends JpaRepository<?,?>> {
 
