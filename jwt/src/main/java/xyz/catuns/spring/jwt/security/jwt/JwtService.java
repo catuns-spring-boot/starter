@@ -58,7 +58,7 @@ public class JwtService {
                 AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
     }
 
-    public static String extractAuthorities(Authentication auth) {
+    private static String extractAuthorities(Authentication auth) {
         return auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));

@@ -2,22 +2,24 @@ package xyz.catuns.spring.jwt.mapper;
 
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-import xyz.catuns.spring.jwt.controller.request.UserRegistration;
-import xyz.catuns.spring.jwt.controller.request.UserUpdate;
+import xyz.catuns.spring.jwt.dto.UserLoginResponse;
+import xyz.catuns.spring.jwt.dto.UserRegister;
 import xyz.catuns.spring.jwt.dto.UserResponse;
 import xyz.catuns.spring.jwt.model.UserEntity;
+import xyz.catuns.spring.jwt.model.UserRole;
 
 @Mapper(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
-public interface UserEntityMapper {
+public interface UserEntityMapper extends AuthenticationMapper<UserEntity,UserResponse,UserLoginResponse, UserRegister> {
+
     UserEntityMapper INSTANCE = Mappers.getMapper(UserEntityMapper.class);
 
-    UserResponse toResponse(UserEntity user);
+    UserResponse toRegisterResponse(UserEntity user);
+    UserLoginResponse toLoginResponse(UserEntity user);
 
     @Mapping(target = "password", ignore = true)
-    UserEntity map(UserRegistration registration);
+    UserEntity map(UserRegister registration);
 
-    @Mapping(target = "email", source = "email")
-    @Mapping(target = "username", source = "username")
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void update(UserUpdate userUpdate, @MappingTarget UserEntity user);
+    default String roleToString(UserRole role) {
+        return role != null ? role.toString() : "";
+    }
 }
