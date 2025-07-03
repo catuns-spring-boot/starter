@@ -8,15 +8,4 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(UserConfigurationProperties.class)
 public class UserAutoConfiguration {
 
-
-//    @Override
-//    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-//        if (applicationContext instanceof BeanDefinitionRegistry) {
-//            AutoConfigurationPackages.register(
-//                    (BeanDefinitionRegistry) applicationContext,
-//                    "xyz.catuns.spring.jwt.model",
-//                    "xyz.catuns.spring.jwt.repository"
-//            );
-//        }
-//    }
 }

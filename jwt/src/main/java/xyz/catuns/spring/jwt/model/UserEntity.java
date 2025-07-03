@@ -5,9 +5,6 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-import xyz.catuns.spring.jwt.config.converter.UserRoleConverter;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
