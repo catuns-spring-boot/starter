@@ -1,5 +1,6 @@
 package xyz.catuns.spring.jwt.security.jwt.filter;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,6 +62,9 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
                 }
                 Authentication authentication = jwtService.validate(jwtToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (ExpiredJwtException exception) {
+
+                throw exception;
             } catch (Exception exception) {
                 throw new BadCredentialsException("Invalid token received", exception);
             }
