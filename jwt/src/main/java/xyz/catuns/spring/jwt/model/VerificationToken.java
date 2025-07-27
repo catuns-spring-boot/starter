@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -25,4 +26,20 @@ public class VerificationToken {
     @Column(name = "expires", nullable = false)
     private LocalDateTime expires;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VerificationToken that = (VerificationToken) o;
+        return Objects.equals(identifier, that.identifier) && Objects.equals(token, that.token);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(identifier, token);
+    }
+
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(this.expires);
+    }
 }

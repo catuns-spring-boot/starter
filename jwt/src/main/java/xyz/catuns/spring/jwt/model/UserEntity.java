@@ -7,9 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Entity
@@ -21,9 +19,6 @@ public class UserEntity {
     @Setter(value = AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-
-    @Column(name = "username")
-    protected String username;
 
     @Column(name = "email", nullable = false, unique = true)
     protected String email;
@@ -44,6 +39,9 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user")
     protected final Set<Session> sessions = new HashSet<>();
+
+    @OneToMany(cascade = {CascadeType.ALL})
+    private final Set<VerificationToken> tokens = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")
