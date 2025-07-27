@@ -19,17 +19,19 @@ public class JwtService {
 
     private final String issuer;
     private final long tokenExpiration;
+    private final long refreshTokenExpiration;
     private final String secret;
 
     public JwtService(JwtProperties jwtProperties) {
-        secret = jwtProperties.secret();
-        tokenExpiration = jwtProperties.expiration();
-        issuer = jwtProperties.issuer();
+        secret = jwtProperties.getSecret();
+        tokenExpiration = jwtProperties.getExpiration().toMillis();
+        refreshTokenExpiration = jwtProperties.getRefresh().toMillis();
+        issuer = jwtProperties.getIssuer();
     }
 
     public JwtToken generate(Authentication auth) {
         SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-        Date expiration = this.getExpiration();
+        Date expiration = getExpiration(this.tokenExpiration);
         String token = Jwts.builder()
                 .issuer(issuer)
                 .subject(auth.getName())
@@ -43,9 +45,22 @@ public class JwtService {
         return new JwtToken(token, expiration);
     }
 
-    private Date getExpiration() {
+    public JwtToken generateRefresh() {
+        SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        Date expiration = getExpiration(this.refreshTokenExpiration);
+        String token = Jwts.builder()
+                .issuer(issuer)
+                .issuedAt(new Date())
+                .expiration(expiration)
+                .signWith(secretKey)
+                .compact();
+
+        return new JwtToken(token, expiration);
+    }
+
+    private static Date getExpiration(long tokenExpiration) {
         long now = System.currentTimeMillis();
-        return new Date(now + this.tokenExpiration);
+        return new Date(now + tokenExpiration);
     }
 
     public Authentication validate(String token) {
