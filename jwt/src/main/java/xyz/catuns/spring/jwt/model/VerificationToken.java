@@ -3,6 +3,7 @@ package xyz.catuns.spring.jwt.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -24,7 +25,16 @@ public class VerificationToken {
     private String token;
 
     @Column(name = "expires", nullable = false)
-    private LocalDateTime expires;
+    private Instant expires;
+
+    public VerificationToken(String identifier, String token, Instant expires) {
+        this.identifier = identifier;
+        this.token = token;
+        this.expires = expires;
+    }
+
+    public VerificationToken() {
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -40,6 +50,6 @@ public class VerificationToken {
     }
 
     public boolean isExpired() {
-        return LocalDateTime.now().isAfter(this.expires);
+        return Instant.now().isAfter(this.expires);
     }
 }
