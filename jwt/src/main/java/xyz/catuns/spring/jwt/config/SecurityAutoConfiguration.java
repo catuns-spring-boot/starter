@@ -19,7 +19,7 @@ import xyz.catuns.spring.jwt.security.UserDetailsServiceImpl;
 @AutoConfiguration
 @EnableConfigurationProperties(UserConfigurationProperties.class)
 @ConditionalOnProperty(prefix = "auth.jwt", name = "enabled", havingValue = "true", matchIfMissing = true)
-@Import(SecurityFilterChainConfig.class)
+@Import(SecurityFilterChainCustomizers.class)
 public class SecurityAutoConfiguration {
 
     @Bean(name = "userEntityDetailsService")
