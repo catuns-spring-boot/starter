@@ -11,13 +11,15 @@ import java.util.Optional;
 
 public interface VerificationTokenRepository extends JpaRepository<VerificationToken, Long> {
 
-    @Query("SELECT t from VerificationToken t WHERE t.identifier = :id " +
+    @Query("SELECT t from VerificationToken t WHERE t.identifier = :identifier " +
             "AND t.expires >= :expiration")
-    Optional<VerificationToken> findByIdentifier(
-            @Param("id") String identifier,
+    Optional<VerificationToken> findByIdentifierAndExpiredAfter(
+            @Param("identifier") String identifier,
             @Param("expiration") Instant expiration);
 
-    @Query("SELECT t from VerificationToken t WHERE t.identifier = :id")
-    List<VerificationToken> findAllByIdentifier(@Param("id") String identifier);
+    List<VerificationToken> findAllByIdentifier(@Param("identifier") String identifier);
 
+    Optional<VerificationToken> findByToken(String token);
+
+    void deleteAllByIdentifier(String identifier);
 }
