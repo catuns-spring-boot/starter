@@ -9,40 +9,41 @@ import xyz.catuns.spring.base.mapper.EntityMapper;
 
 public abstract class JpaCrudService<Entity, ID, EntityDetails> implements CrudService<ID, EntityDetails> {
 
-    protected final EntityMapper<Entity, EntityDetails> mapper;
+    protected static EntityMapper<?,?,?,?> mapper;
     protected final JpaRepository<Entity, ID> repository;
 
-    public JpaCrudService(JpaRepository<Entity, ID> repository, EntityMapper<Entity, EntityDetails> mapper) {
+    public JpaCrudService(JpaRepository<Entity, ID> repository) {
         this.repository = repository;
-        this.mapper = mapper;
     }
 
-    public PageList<EntityDetails> getAll(PageRequest pageRequest) {
-        Page<Entity> all = repository.findAll(pageRequest);
-        return mapper.toPageList(all);
-    }
+//    public PageList<EntityDetails> getAll(PageRequest pageRequest) {
+//        Page<Entity> all = repository.findAll(pageRequest);
+//        return mapper.toPageList(all);
+//    }
+//
+//    public EntityDetails getOne(ID id) {
+//        Entity entity = repository.findById(id)
+//                .orElseThrow(() -> new NotFoundException("no entity for id " + id));
+//        return mapper.toDetails(entity);
+//    }
+//
+//    public EntityDetails create(C creationDTO) {
+//        Entity entity = mapper.map(creationDTO);
+//        entity = repository.save(entity);
+//        return mapper.toDetails(entity);
+//    }
+//
+//    public EntityDetails edit(ID id, E edit) {
+//        Entity entity = repository.findById(id)
+//                .orElseThrow(() -> new NotFoundException("no entity for id " + id));
+//        mapper.update(entity, edit);
+//        entity = repository.save(entity);
+//        return mapper.toDetails(entity);
+//    }
+//
+//    public void delete(ID entityId) {
+//        repository.deleteById(entityId);
+//    }
 
-    public EntityDetails getOne(ID id) {
-        Entity entity = repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("no entity for id " + id));
-        return mapper.toDetails(entity);
-    }
 
-    public <C> EntityDetails create(C creationDTO) {
-        Entity entity = mapper.map(creationDTO);
-        entity = repository.save(entity);
-        return mapper.toDetails(entity);
-    }
-
-    public <E> EntityDetails edit(ID id, E edit) {
-        Entity entity = repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("no entity for id " + id));
-        mapper.update(entity, edit);
-        entity = repository.save(entity);
-        return mapper.toDetails(entity);
-    }
-
-    public void delete(ID entityId) {
-        repository.deleteById(entityId);
-    }
 }
