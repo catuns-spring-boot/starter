@@ -1,50 +1,48 @@
 package xyz.catuns.spring.base.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import xyz.catuns.spring.base.dto.PageList;
+import xyz.catuns.spring.base.exception.NotFoundException;
 import xyz.catuns.spring.base.mapper.EntityMapper;
 
-public abstract class JpaCrudService<Entity, PrimaryKey, EntityDTO, CreationDTO, EditDTO>
-        implements CrudService<Entity, PrimaryKey, EntityDTO, CreationDTO, EditDTO>
-{
+public abstract class JpaCrudService<Entity, ID, EntityDetails> implements CrudService<ID, EntityDetails> {
 
-    protected final EntityMapper<Entity, EntityDTO, CreationDTO, EditDTO> mapper;
-    protected final JpaRepository<Entity, PrimaryKey> repository;
+    protected final EntityMapper<Entity, EntityDetails> mapper;
+    protected final JpaRepository<Entity, ID> repository;
 
-    public JpaCrudService(JpaRepository<Entity, PrimaryKey> repository, EntityMapper<Entity, EntityDTO, CreationDTO, EditDTO> mapper) {
+    public JpaCrudService(JpaRepository<Entity, ID> repository, EntityMapper<Entity, EntityDetails> mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
 
-    public PageList<EntityDTO> getAll(PageRequest pageRequest) {
+    public PageList<EntityDetails> getAll(PageRequest pageRequest) {
         Page<Entity> all = repository.findAll(pageRequest);
         return mapper.toPageList(all);
     }
 
-    public EntityDTO getOne(PrimaryKey id) {
+    public EntityDetails getOne(ID id) {
         Entity entity = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("entity id " + id));
+                .orElseThrow(() -> new NotFoundException("no entity for id " + id));
         return mapper.toDetails(entity);
     }
 
-    public EntityDTO create(CreationDTO creationDTO) {
+    public <C> EntityDetails create(C creationDTO) {
         Entity entity = mapper.map(creationDTO);
         entity = repository.save(entity);
         return mapper.toDetails(entity);
     }
 
-    public EntityDTO edit(PrimaryKey id, EditDTO edit) {
+    public <E> EntityDetails edit(ID id, E edit) {
         Entity entity = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("entity id " + id));
+                .orElseThrow(() -> new NotFoundException("no entity for id " + id));
         mapper.update(entity, edit);
         entity = repository.save(entity);
         return mapper.toDetails(entity);
     }
 
-    public void delete(PrimaryKey entityId) {
+    public void delete(ID entityId) {
         repository.deleteById(entityId);
     }
 }
