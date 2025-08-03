@@ -12,8 +12,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import xyz.catuns.spring.base.exception.ControllerException;
-import xyz.catuns.spring.jwt.exception.AuthorizationException;
 import xyz.catuns.spring.jwt.exception.TokenExpiredException;
 import xyz.catuns.spring.jwt.security.jwt.JwtService;
 

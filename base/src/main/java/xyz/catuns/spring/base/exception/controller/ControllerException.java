@@ -1,4 +1,4 @@
-package xyz.catuns.spring.base.exception;
+package xyz.catuns.spring.base.exception.controller;
 
 import org.springframework.http.HttpStatus;
 

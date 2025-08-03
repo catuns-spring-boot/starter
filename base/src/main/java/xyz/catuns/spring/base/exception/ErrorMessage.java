@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Getter
 public class ErrorMessage {
-    private static ObjectMapper mapper;
+    private static final ObjectMapper mapper;
 
     static {
         mapper = new ObjectMapper();
@@ -42,18 +42,13 @@ public class ErrorMessage {
     }
 
     public String toJson() throws JsonProcessingException {
-//        ObjectMapper mapper = new ObjectMapper();
-//        mapper.registerModule(new JavaTimeModule());
 
         final Map<String, Object> map = new HashMap<>();
         map.put("path", path);
         map.put("message", message);
         map.put("statusCode", statusCode);
         map.put("timestamp", timestamp);
-//        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        String json = mapper.writeValueAsString(map);
-//        mapper = null;
-        return json;
+        return mapper.writeValueAsString(map);
     }
 
     @Override

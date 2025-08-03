@@ -12,11 +12,9 @@ import xyz.catuns.spring.base.service.CrudService;
 
 public abstract class CrudController<Identifier, DTO> {
 
-    protected final CrudService<Identifier, DTO> service;
 
-    protected CrudController(CrudService<Identifier, DTO> service) {
-        this.service = service;
-    }
+    abstract CrudService<Identifier, DTO> getService();
+
 
     @GetMapping("")
     @Operation(
@@ -30,7 +28,7 @@ public abstract class CrudController<Identifier, DTO> {
             @RequestParam(defaultValue = "20") int size
     ){
         PageRequest pageRequest = PageRequest.of(page, size);
-        PageList<DTO> pagelist = service.getAll(pageRequest);
+        PageList<DTO> pagelist = getService().getAll(pageRequest);
         return ResponseEntity.status(HttpStatus.OK).body(pagelist);
     }
 
@@ -44,7 +42,7 @@ public abstract class CrudController<Identifier, DTO> {
     public <C> ResponseEntity<DTO> createCrud(
             @Valid @RequestBody C crudCreation
     ) {
-        DTO entity = service.create(crudCreation);
+        DTO entity = getService().create(crudCreation);
         return ResponseEntity.status(HttpStatus.CREATED).body(entity);
     }
 
@@ -59,7 +57,7 @@ public abstract class CrudController<Identifier, DTO> {
             @PathVariable("id") Identifier id,
             @RequestBody E crudEdit
     ){
-        DTO entity = service.edit(id, crudEdit);
+        DTO entity = getService().edit(id, crudEdit);
         return ResponseEntity.status(HttpStatus.OK).body(entity);
     }
 
@@ -73,7 +71,7 @@ public abstract class CrudController<Identifier, DTO> {
     public ResponseEntity<DTO> getOne(
             @PathVariable("id") Identifier id
     ){
-        DTO entity = service.getOne(id);
+        DTO entity = getService().getOne(id);
         return ResponseEntity.status(HttpStatus.OK).body(entity);
     }
 
@@ -87,7 +85,7 @@ public abstract class CrudController<Identifier, DTO> {
     public ResponseEntity<Void> delete(
             @PathVariable("id") Identifier id
     ){
-        service.delete(id);
+        getService().delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
