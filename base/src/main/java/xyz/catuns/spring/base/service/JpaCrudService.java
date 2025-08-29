@@ -1,5 +1,7 @@
 package xyz.catuns.spring.base.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +12,12 @@ import xyz.catuns.spring.base.mapper.EntityMapper;
 import java.util.List;
 
 public abstract class JpaCrudService<Entity, ID, EntityDetails> implements CrudService<ID, EntityDetails> {
+
+    protected static final ObjectMapper objectMapper = new ObjectMapper();
+
+    static {
+        objectMapper.registerModule(new JavaTimeModule());
+    }
 
     public PageList<EntityDetails> getAll(PageRequest pageRequest) {
         Page<Entity> all = getRepository().findAll(pageRequest);

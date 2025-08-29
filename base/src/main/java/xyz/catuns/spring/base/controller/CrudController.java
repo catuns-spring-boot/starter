@@ -1,5 +1,6 @@
 package xyz.catuns.spring.base.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
@@ -12,8 +13,7 @@ import xyz.catuns.spring.base.service.CrudService;
 
 public abstract class CrudController<Identifier, DTO> {
 
-
-    abstract CrudService<Identifier, DTO> getService();
+    protected abstract CrudService<Identifier, DTO> getService();
 
 
     @GetMapping("")
@@ -39,8 +39,8 @@ public abstract class CrudController<Identifier, DTO> {
     @ApiResponse(
             responseCode = "201",
             description = "HTTP Status CREATED")
-    public <C> ResponseEntity<DTO> createCrud(
-            @Valid @RequestBody C crudCreation
+    public ResponseEntity<DTO> createCrud(
+            @Valid @RequestBody Object crudCreation
     ) {
         DTO entity = getService().create(crudCreation);
         return ResponseEntity.status(HttpStatus.CREATED).body(entity);

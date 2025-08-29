@@ -13,7 +13,7 @@ public interface CrudService <Identifier, DTO> {
 
     DTO getOne(Identifier id);
 
-    <C> DTO create(C creation);
+    DTO create(Object object);
 
     <E> DTO edit(Identifier id, E edit);
 
