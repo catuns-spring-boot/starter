@@ -1,4 +1,4 @@
-package xyz.catuns.spring.jwt.config.converter;
+package xyz.catuns.spring.jwt.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

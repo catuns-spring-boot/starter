@@ -25,9 +25,15 @@
     },
     {
       "name": "auth.jwt.expiration",
-      "type": "java.lang.Long",
-      "description": "JWT token expiration in ms.",
-      "defaultValue": "36000000"
+      "type": "java.time.Duration",
+      "description": "JWT token expiration duration",
+      "defaultValue": "10 hours"
+    },
+    {
+      "name": "auth.jwt.refresh",
+      "type": "java.time.Duration",
+      "description": "Refresh token token duration",
+      "defaultValue": "14 days"
     },
     {
       "name": "auth.jwt.enabled",

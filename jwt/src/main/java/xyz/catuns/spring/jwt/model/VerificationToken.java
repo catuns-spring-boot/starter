@@ -3,7 +3,9 @@ package xyz.catuns.spring.jwt.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -23,6 +25,31 @@ public class VerificationToken {
     private String token;
 
     @Column(name = "expires", nullable = false)
-    private LocalDateTime expires;
+    private Instant expires;
 
+    public VerificationToken(String identifier, String token, Instant expires) {
+        this.identifier = identifier;
+        this.token = token;
+        this.expires = expires;
+    }
+
+    public VerificationToken() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VerificationToken that = (VerificationToken) o;
+        return Objects.equals(identifier, that.identifier) && Objects.equals(token, that.token);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(identifier, token);
+    }
+
+    public boolean isExpired() {
+        return Instant.now().isAfter(this.expires);
+    }
 }

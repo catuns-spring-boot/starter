@@ -1,6 +1,7 @@
-package xyz.catuns.spring.jwt.config.jwt;
+package xyz.catuns.spring.jwt.annotations;
 
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import xyz.catuns.spring.jwt.config.SecurityAutoConfiguration;
 
 import java.lang.annotation.*;
 

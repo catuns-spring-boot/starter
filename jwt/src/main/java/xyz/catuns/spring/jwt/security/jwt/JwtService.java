@@ -7,9 +7,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import xyz.catuns.spring.jwt.model.VerificationToken;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -18,34 +21,47 @@ import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.*;
 public class JwtService {
 
     private final String issuer;
-    private final long tokenExpiration;
+    private final Duration tokenExpiration;
+    private final Duration refreshTokenExpiration;
     private final String secret;
 
     public JwtService(JwtProperties jwtProperties) {
-        secret = jwtProperties.secret();
-        tokenExpiration = jwtProperties.expiration();
-        issuer = jwtProperties.issuer();
+        secret = jwtProperties.getSecret();
+        tokenExpiration = jwtProperties.getExpiration();
+        refreshTokenExpiration = jwtProperties.getRefresh();
+        issuer = jwtProperties.getIssuer();
     }
 
     public JwtToken generate(Authentication auth) {
         SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-        Date expiration = this.getExpiration();
+        Instant now = Instant.now();
+        Instant expiration = now.plus(this.tokenExpiration);
         String token = Jwts.builder()
                 .issuer(issuer)
                 .subject(auth.getName())
                 .claim(USERNAME_KEY, auth.getName())
                 .claim(AUTHORITY_KEY, extractAuthorities(auth))
-                .issuedAt(new Date())
-                .expiration(expiration)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(expiration))
                 .signWith(secretKey)
                 .compact();
 
         return new JwtToken(token, expiration);
     }
 
-    private Date getExpiration() {
-        long now = System.currentTimeMillis();
-        return new Date(now + this.tokenExpiration);
+    public VerificationToken generateRefresh(String identifier) {
+        SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        Instant now = Instant.now();
+        Instant expiration = now.plus(refreshTokenExpiration);
+        String token = Jwts.builder()
+                .issuer(issuer)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(expiration))
+                .claim(USERNAME_KEY, identifier)
+                .signWith(secretKey)
+                .compact();
+
+        return new VerificationToken(identifier, token, expiration);
     }
 
     public Authentication validate(String token) {

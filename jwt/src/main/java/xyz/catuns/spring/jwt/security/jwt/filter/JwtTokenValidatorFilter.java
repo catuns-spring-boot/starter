@@ -1,23 +1,29 @@
 package xyz.catuns.spring.jwt.security.jwt.filter;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import xyz.catuns.spring.jwt.exception.TokenExpiredException;
 import xyz.catuns.spring.jwt.security.jwt.JwtService;
 
 import java.io.IOException;
 
 import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.AUTHORIZATION_HEADER_KEY;
 
-public class JwtTokenValidatorFilter extends OncePerRequestFilter {
 
-    private static final String PREFIX = "Bearer ";
+public class JwtTokenValidatorFilter extends OncePerRequestFilter {
+    private static final Logger log = LoggerFactory.getLogger(JwtTokenValidatorFilter.class);
+
+    private static final String BEARER_PREFIX = "Bearer ";
 
     private final String shouldNotFilterPath;
     private final JwtService jwtService;
@@ -56,11 +62,14 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
         String jwtToken = request.getHeader(AUTHORIZATION_HEADER_KEY);
         if (jwtToken != null) {
             try {
-                if (jwtToken.regionMatches(true, 0, PREFIX, 0, PREFIX.length())) {
-                    jwtToken = jwtToken.substring(PREFIX.length()).trim();
+                if (jwtToken.regionMatches(true, 0, BEARER_PREFIX, 0, BEARER_PREFIX.length())) {
+                    jwtToken = jwtToken.substring(BEARER_PREFIX.length()).trim();
                 }
                 Authentication authentication = jwtService.validate(jwtToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (ExpiredJwtException exception) {
+                log.debug("Jwt expired {}", exception.toString());
+                throw new TokenExpiredException();
             } catch (Exception exception) {
                 throw new BadCredentialsException("Invalid token received", exception);
             }

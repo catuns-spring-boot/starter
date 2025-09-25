@@ -1,50 +1,57 @@
 package xyz.catuns.spring.base.service;
 
-import jakarta.persistence.EntityNotFoundException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import xyz.catuns.spring.base.dto.PageList;
+import xyz.catuns.spring.base.exception.controller.NotFoundException;
 import xyz.catuns.spring.base.mapper.EntityMapper;
 
-public abstract class JpaCrudService<Entity, PrimaryKey, EntityDTO, CreationDTO, EditDTO>
-        implements CrudService<Entity, PrimaryKey, EntityDTO, CreationDTO, EditDTO>
-{
+import java.util.List;
 
-    protected final EntityMapper<Entity, EntityDTO, CreationDTO, EditDTO> mapper;
-    protected final JpaRepository<Entity, PrimaryKey> repository;
+public abstract class JpaCrudService<Entity, ID, EntityDetails> implements CrudService<ID, EntityDetails> {
 
-    public JpaCrudService(JpaRepository<Entity, PrimaryKey> repository, EntityMapper<Entity, EntityDTO, CreationDTO, EditDTO> mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
+    protected static final ObjectMapper objectMapper = new ObjectMapper();
+
+    static {
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
-    public PageList<EntityDTO> getAll(PageRequest pageRequest) {
-        Page<Entity> all = repository.findAll(pageRequest);
-        return mapper.toPageList(all);
+    public PageList<EntityDetails> getAll(PageRequest pageRequest) {
+        Page<Entity> all = getRepository().findAll(pageRequest);
+        return getMapper().toPageList(all);
     }
 
-    public EntityDTO getOne(PrimaryKey id) {
-        Entity entity = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("entity id " + id));
-        return mapper.toDetails(entity);
+    @Override
+    public List<EntityDetails> getAll() {
+        List<Entity> all = getRepository().findAll();
+        return all.stream()
+                .map(getMapper()::toDetails)
+                .toList();
     }
 
-    public EntityDTO create(CreationDTO creationDTO) {
-        Entity entity = mapper.map(creationDTO);
-        entity = repository.save(entity);
-        return mapper.toDetails(entity);
+    public EntityDetails getOne(ID id) {
+        Entity entity = getRepository().findById(id)
+                .orElseThrow(() -> new NotFoundException("no entity for id " + id));
+        return getMapper().toDetails(entity);
     }
 
-    public EntityDTO edit(PrimaryKey id, EditDTO edit) {
-        Entity entity = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("entity id " + id));
-        mapper.update(entity, edit);
-        entity = repository.save(entity);
-        return mapper.toDetails(entity);
+    @SuppressWarnings("unchecked")
+    public <E> EntityDetails edit(ID id, E edit) {
+        Entity entity = getRepository().findById(id)
+                .orElseThrow(() -> new NotFoundException("no entity for id " + id));
+        ((EntityMapper<Entity,EntityDetails, E>) getMapper()).update(entity, edit);
+        entity = getRepository().save(entity);
+        return getMapper().toDetails(entity);
     }
 
-    public void delete(PrimaryKey entityId) {
-        repository.deleteById(entityId);
+    public void delete(ID entityId) {
+        getRepository().deleteById(entityId);
     }
+
+    protected abstract EntityMapper<Entity,EntityDetails,?> getMapper();
+
+    protected abstract JpaRepository<Entity, ID> getRepository();
 }

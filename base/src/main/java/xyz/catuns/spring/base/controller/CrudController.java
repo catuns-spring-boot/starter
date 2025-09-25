@@ -10,13 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import xyz.catuns.spring.base.dto.PageList;
 import xyz.catuns.spring.base.service.CrudService;
 
-public abstract class CrudController<Entity, PrimaryKey, EntityDTO, CreationDTO, EditDTO> {
+public abstract class CrudController<Identifier, DTO> {
 
-    protected final CrudService<Entity, PrimaryKey, EntityDTO, CreationDTO, EditDTO> service;
-
-    protected CrudController(CrudService<Entity, PrimaryKey, EntityDTO, CreationDTO, EditDTO> service) {
-        this.service = service;
-    }
+    protected abstract CrudService<Identifier, DTO> getService();
 
 
     @GetMapping("")
@@ -26,12 +22,12 @@ public abstract class CrudController<Entity, PrimaryKey, EntityDTO, CreationDTO,
     @ApiResponse(
             responseCode = "200",
             description = "HTTP Status OK")
-    public ResponseEntity<PageList<EntityDTO>> getAll(
+    public ResponseEntity<PageList<DTO>> getAllPageable(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size
     ){
         PageRequest pageRequest = PageRequest.of(page, size);
-        PageList<EntityDTO> pagelist = service.getAll(pageRequest);
+        PageList<DTO> pagelist = getService().getAll(pageRequest);
         return ResponseEntity.status(HttpStatus.OK).body(pagelist);
     }
 
@@ -42,10 +38,10 @@ public abstract class CrudController<Entity, PrimaryKey, EntityDTO, CreationDTO,
     @ApiResponse(
             responseCode = "201",
             description = "HTTP Status CREATED")
-    public ResponseEntity<EntityDTO> createCrud(
-            @Valid @RequestBody CreationDTO crudCreation
-    ){
-        EntityDTO entity = service.create(crudCreation);
+    public ResponseEntity<DTO> createCrud(
+            @Valid @RequestBody Object crudCreation
+    ) {
+        DTO entity = getService().create(crudCreation);
         return ResponseEntity.status(HttpStatus.CREATED).body(entity);
     }
 
@@ -56,11 +52,25 @@ public abstract class CrudController<Entity, PrimaryKey, EntityDTO, CreationDTO,
     @ApiResponse(
             responseCode = "200",
             description = "HTTP Status OK")
-    public ResponseEntity<EntityDTO> editCrud(
-            @PathVariable("id") PrimaryKey id,
-            @RequestBody EditDTO crudEdit
+    public <E> ResponseEntity<DTO> editCrud(
+            @PathVariable("id") Identifier id,
+            @RequestBody E crudEdit
     ){
-        EntityDTO entity = service.edit(id, crudEdit);
+        DTO entity = getService().edit(id, crudEdit);
+        return ResponseEntity.status(HttpStatus.OK).body(entity);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Get by identifier",
+            description = "REST API to entity by identifier")
+    @ApiResponse(
+            responseCode = "200",
+            description = "HTTP Status OK")
+    public ResponseEntity<DTO> getOne(
+            @PathVariable("id") Identifier id
+    ){
+        DTO entity = getService().getOne(id);
         return ResponseEntity.status(HttpStatus.OK).body(entity);
     }
 
@@ -72,9 +82,9 @@ public abstract class CrudController<Entity, PrimaryKey, EntityDTO, CreationDTO,
             responseCode = "204",
             description = "HTTP Status NO CONTENT")
     public ResponseEntity<Void> delete(
-            @PathVariable("id") PrimaryKey id
+            @PathVariable("id") Identifier id
     ){
-        service.delete(id);
+        getService().delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

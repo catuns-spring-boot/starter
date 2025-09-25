@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class Session {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "sessionToken", unique = true, nullable = false)
@@ -23,5 +24,7 @@ public class Session {
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private UserEntity user;
 
-
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(expires);
+    }
 }

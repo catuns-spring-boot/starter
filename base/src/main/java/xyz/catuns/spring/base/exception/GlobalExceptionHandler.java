@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import xyz.catuns.spring.base.exception.controller.ControllerException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
