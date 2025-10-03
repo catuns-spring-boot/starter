@@ -13,6 +13,10 @@
     <artifactId>catuns-spring-boot-starter-test</artifactId>
     <name>starter-test</name>
 
+    <properties>
+        <rest.assured.version>5.5.6</rest.assured.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -28,6 +32,13 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest.assured.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -57,6 +68,11 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
         </dependency>
     </dependencies>
 
