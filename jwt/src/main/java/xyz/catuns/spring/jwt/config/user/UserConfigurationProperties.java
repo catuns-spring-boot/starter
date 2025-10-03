@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @ConfigurationProperties("auth.user")
 public class UserConfigurationProperties{
-        private Boolean enabled = true;
+        private Boolean enabled = false;
         private List<User> users = new ArrayList<>();
 
         public record User(String email, String password, List<String> roles) {}

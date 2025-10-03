@@ -1,11 +1,11 @@
 package xyz.catuns.spring.base.controller.request;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-public class PageableRequestParams {
-    protected int page = 0;
-    protected int pageSize = 5;
+public record PageableRequestParams(
+        Integer page,
+        Integer size
+) {
+    public PageableRequestParams {
+        if (page == null) page = 0;
+        if (size == null) size = 10;
+    }
 }
