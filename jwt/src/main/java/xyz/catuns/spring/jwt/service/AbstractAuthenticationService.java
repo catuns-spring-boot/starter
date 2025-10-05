@@ -9,7 +9,7 @@ import xyz.catuns.spring.jwt.controller.request.LoginRequest;
 import xyz.catuns.spring.jwt.controller.request.RegisterRequest;
 import xyz.catuns.spring.jwt.controller.response.LoginResponse;
 import xyz.catuns.spring.jwt.controller.response.RegisterResponse;
-import xyz.catuns.spring.jwt.mapper.AuthenticationMapper;
+import xyz.catuns.spring.jwt.mapper.AuthenticationServiceMapper;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,5 +48,5 @@ public abstract class AbstractAuthenticationService<
                 .collect(Collectors.toSet());
     }
 
-    abstract protected AuthenticationMapper<?,Ro,Lo,Re> mapper();
+    abstract protected AuthenticationServiceMapper<?,Ro,Lo,Re> mapper();
 }

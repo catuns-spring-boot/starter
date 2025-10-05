@@ -9,7 +9,7 @@ import xyz.catuns.spring.jwt.dto.UserLoginRequest;
 import xyz.catuns.spring.jwt.dto.UserLoginResponse;
 import xyz.catuns.spring.jwt.dto.UserRegister;
 import xyz.catuns.spring.jwt.dto.UserResponse;
-import xyz.catuns.spring.jwt.mapper.AuthenticationMapper;
+import xyz.catuns.spring.jwt.mapper.AuthenticationServiceMapper;
 import xyz.catuns.spring.jwt.mapper.UserEntityMapper;
 import xyz.catuns.spring.jwt.model.UserEntity;
 import xyz.catuns.spring.jwt.repository.UserEntityRepository;
@@ -49,7 +49,7 @@ public class DefaultAuthenticationService extends AbstractAuthenticationService<
     }
 
     @Override
-    protected AuthenticationMapper<UserEntity, UserResponse, UserLoginResponse, UserRegister> mapper() {
+    protected AuthenticationServiceMapper<UserEntity, UserResponse, UserLoginResponse, UserRegister> mapper() {
         return UserEntityMapper.INSTANCE;
     }
 }

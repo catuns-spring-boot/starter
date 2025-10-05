@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Data
@@ -27,10 +26,15 @@ public class VerificationToken {
     @Column(name = "expires", nullable = false)
     private Instant expires;
 
-    public VerificationToken(String identifier, String token, Instant expires) {
+    @Column(name = "issued_at", nullable = false)
+    private Instant issuedAt;
+
+
+    public VerificationToken(String identifier, String token, Instant expires, Instant issuedAt) {
         this.identifier = identifier;
         this.token = token;
         this.expires = expires;
+        this.issuedAt = issuedAt;
     }
 
     public VerificationToken() {

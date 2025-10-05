@@ -5,6 +5,9 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -13,7 +16,7 @@ import java.util.*;
 @Entity
 @Table(name = "user_entity")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class UserEntity {
+public class UserEntity implements UserDetails {
 
     @Id
     @Setter(value = AccessLevel.NONE)
@@ -34,10 +37,10 @@ public class UserEntity {
     )
     protected final Set<UserRole> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = {CascadeType.ALL})
     protected final Set<Account> accounts = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = {CascadeType.ALL})
     protected final Set<Session> sessions = new HashSet<>();
 
     @OneToMany(cascade = {CascadeType.ALL})
@@ -64,4 +67,15 @@ public class UserEntity {
         this.roles.add(userRole);
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream()
+                .map(UserRole::toAuthority)
+                .toList();
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
 }
