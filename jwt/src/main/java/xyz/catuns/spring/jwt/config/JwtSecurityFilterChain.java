@@ -14,21 +14,21 @@ import xyz.catuns.spring.jwt.security.jwt.JwtService;
 import xyz.catuns.spring.jwt.security.jwt.filter.JwtTokenGeneratorFilter;
 import xyz.catuns.spring.jwt.security.jwt.filter.JwtTokenValidatorFilter;
 
+/**
+ * Pair with {@link SecurityFilterChainCustomizers} customizers
+ */
 public interface JwtSecurityFilterChain {
 
     Customizer<HttpSecurity> httpSecurityCustomizer();
 
     /**
-     * Customizer default configuration {@link SecurityFilterChainCustomizers}
      *
      * @param http {@link HttpSecurity}
-     * @param service {@link JwtService} Generate and validate tokens
-     *         - {@link JwtTokenGeneratorFilter}
-     *         - {@link JwtTokenValidatorFilter}
-     * @param resolver Exception handling
+     * @param service {@link JwtService} For generate and validate filters
+     * @param resolver {@link HandlerExceptionResolver} handlerExceptionResolver
 
-     * @return {@link SecurityFilterChain} bean
-     * @throws Exception build method
+     * @return {@link SecurityFilterChain} jwtSecurityFilterChain bean
+     * @throws Exception on {@link HttpSecurity#build()}
      */
     @Bean(name = "jwtSecurityFilterChain")
     default SecurityFilterChain jwtSecurityFilterChain(
@@ -50,17 +50,24 @@ public interface JwtSecurityFilterChain {
         http.csrf(csrfCustomizer);
 
         this.httpSecurityCustomizer().customize(http);
-        applyRequired(http, service, resolver);
+        this.applyFilters(http, service, resolver);
         return http.build();
     }
 
 
-    static void applyRequired(
+    /**
+     * Adds {@link JwtTokenValidatorFilter} (before) {@link BasicAuthenticationFilter}<br>
+     * Adds {@link JwtTokenGeneratorFilter} (after) {@link BasicAuthenticationFilter}<br>
+     * Adds {@link FilterChainExceptionHandler} (before) {@link LogoutFilter}<br>
+     * @param http {@link HttpSecurity}
+     * @param jwtService {@link JwtService}
+     * @param resolver {@link HandlerExceptionResolver}
+     */
+    default void applyFilters(
             HttpSecurity http,
             JwtService jwtService,
             HandlerExceptionResolver resolver
-    ) throws Exception {
-        http.sessionManagement(new StatelessSessionManagementCustomizer());
+    ) {
         http.addFilterBefore(new JwtTokenValidatorFilter(jwtService), BasicAuthenticationFilter.class);
         http.addFilterAfter(new JwtTokenGeneratorFilter(jwtService), BasicAuthenticationFilter.class);
         http.addFilterBefore(new FilterChainExceptionHandler(resolver), LogoutFilter.class);

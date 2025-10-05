@@ -17,26 +17,10 @@ import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.*;
 
 public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
 
-    private final String shouldFilterPath;
     private final JwtService jwtService;
 
-
-    /**
-     *
-     * @param shouldFilterPath the paths that should be filtered. eg: `/api/users/user`
-     */
-    public JwtTokenGeneratorFilter(JwtService jwtService, String shouldFilterPath) {
-        this.shouldFilterPath = shouldFilterPath;
-        this.jwtService = jwtService;
-    }
-
-    /**
-     *
-     * Sets the default path that should not be filtered to `/api/users/user`
-     *
-     */
     public JwtTokenGeneratorFilter(JwtService jwtService) {
-        this(jwtService, "/api/users/user");
+        this.jwtService = jwtService;
     }
 
     /**
@@ -53,15 +37,9 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             JwtToken jwtToken = jwtService.generate(auth);
-            response.setHeader(AUTHORIZATION_HEADER_KEY, "Bearer ".concat(jwtToken.value()));
+            response.setHeader(AUTHORIZATION_HEADER_KEY, BEARER_PREFIX.concat(jwtToken.value()));
             response.setHeader(EXPIRATION_HEADER_KEY, jwtToken.expiration().toString());
         }
         filterChain.doFilter(request, response);
     }
-
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return !request.getServletPath().equals(shouldFilterPath);
-    }
-
 }
