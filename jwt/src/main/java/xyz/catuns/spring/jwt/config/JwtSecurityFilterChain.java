@@ -48,7 +48,7 @@ public interface JwtSecurityFilterChain {
         http.exceptionHandling(exceptionHandlingCustomizer);
         http.authorizeHttpRequests(authorizeRequestCustomizer);
         http.csrf(csrfCustomizer);
-
+        http.sessionManagement(new StatelessSessionManagementCustomizer());
         this.httpSecurityCustomizer().customize(http);
         this.applyFilters(http, service, resolver);
         return http.build();
