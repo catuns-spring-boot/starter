@@ -36,11 +36,13 @@ import xyz.catuns.spring.constraint.strategy.sqlserver.SQLServerUniqueStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
+import static xyz.catuns.spring.constraint.Constants.CONSTRAINT_CONFIG_PROPERTY_PREFIX;
+
 @Slf4j
 @AutoConfiguration
 @ConditionalOnClass({DataIntegrityViolationException.class})
 @ConditionalOnWebApplication
-@ConditionalOnProperty(prefix = "constraint-violation", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = CONSTRAINT_CONFIG_PROPERTY_PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties(ConstraintViolationProperties.class)
 public class ConstraintViolationAutoConfiguration {
 

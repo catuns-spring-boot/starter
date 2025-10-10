@@ -9,6 +9,7 @@ import xyz.catuns.spring.constraint.parser.ConstraintViolationParser;
 import xyz.catuns.spring.constraint.strategy.postgresql.PostgreSQLUniqueStrategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static xyz.catuns.spring.constraint.Constants.CONSTRAINT_CONFIG_PROPERTY_PREFIX;
 
 class ConstraintViolationAutoConfigurationTest {
 
@@ -41,7 +42,7 @@ class ConstraintViolationAutoConfigurationTest {
     @Test
     void shouldAutoConfigureWhenEnabled() {
         this.contextRunner
-                .withPropertyValues("constraint-violation.enabled=true")
+                .withPropertyValues(CONSTRAINT_CONFIG_PROPERTY_PREFIX + ".enabled=true")
                 .run(context -> {
                     assertThat(context).hasSingleBean(ConstraintViolationParser.class);
                     assertThat(context).hasSingleBean(GlobalDataIntegrityExceptionHandler.class);
@@ -51,7 +52,7 @@ class ConstraintViolationAutoConfigurationTest {
     @Test
     void shouldNotAutoConfigureWhenDisabled() {
         this.contextRunner
-                .withPropertyValues("constraint-violation.enabled=false")
+                .withPropertyValues(CONSTRAINT_CONFIG_PROPERTY_PREFIX + ".enabled=false")
                 .run(context -> {
                     assertThat(context).doesNotHaveBean(ConstraintViolationParser.class);
                     assertThat(context).doesNotHaveBean(GlobalDataIntegrityExceptionHandler.class);
@@ -61,7 +62,7 @@ class ConstraintViolationAutoConfigurationTest {
     @Test
     void shouldRegisterPostgreSQLStrategiesWhenDriverPresent() {
         this.contextRunner
-                .withPropertyValues("constraint-violation.enabled=true")
+                .withPropertyValues(CONSTRAINT_CONFIG_PROPERTY_PREFIX + ".enabled=true")
                 .run(context -> {
                     // This test will only pass if PostgreSQL driver is on classpath
                     if (isClassPresent("org.postgresql.Driver")) {
@@ -74,9 +75,9 @@ class ConstraintViolationAutoConfigurationTest {
     void shouldRespectCustomProperties() {
         this.contextRunner
                 .withPropertyValues(
-                        "constraint-violation.enabled=true",
-                        "constraint-violation.expose-technical-details=true",
-                        "constraint-violation.status-code=400"
+                        CONSTRAINT_CONFIG_PROPERTY_PREFIX + ".enabled=true",
+                        CONSTRAINT_CONFIG_PROPERTY_PREFIX + ".expose-technical-details=true",
+                        CONSTRAINT_CONFIG_PROPERTY_PREFIX + ".status-code=400"
                 )
                 .run(context -> {
                     ConstraintViolationProperties properties =

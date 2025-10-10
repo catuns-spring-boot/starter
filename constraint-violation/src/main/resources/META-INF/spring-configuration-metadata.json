@@ -1,7 +1,7 @@
 {
   "properties": [
     {
-      "name": "constraint-violation.enabled",
+      "name": "starter.constraint.enabled",
       "type": "java.lang.Boolean",
       "defaultValue": true,
       "description": "Enable or disable the constraint violation handler."
