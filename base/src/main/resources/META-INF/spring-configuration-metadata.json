@@ -1,5 +1,20 @@
 {
+  "groups": [
+    {
+      "name": "starter.base",
+      "type": "xyz.catuns.spring.base.autoconfigure.BaseConfigurationProperties",
+      "sourceType": "xyz.catuns.spring.base.autoconfigure.BaseConfigurationProperties"
+    },
+    {
+      "name": "starter.base.exception",
+      "type": "xyz.catuns.spring.base.autoconfigure.ExceptionHandlerProperties",
+      "sourceType": "xyz.catuns.spring.base.autoconfigure.ExceptionHandlerProperties"
+    }
+  ],
   "properties": [
+
+  ],
+  "hints": [
 
   ]
 }
