@@ -4,7 +4,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import xyz.catuns.spring.base.exception.GlobalAccessDeniedHandler;
+import xyz.catuns.spring.base.exception.handler.GlobalAccessDeniedHandler;
 import xyz.catuns.spring.base.exception.GlobalAuthenticationEntryPoint;
 import xyz.catuns.spring.jwt.security.cors.DefaultCorsConfigurationHandler;
 import xyz.catuns.spring.jwt.security.customizer.*;
