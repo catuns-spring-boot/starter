@@ -69,5 +69,10 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>xyz.catuns.spring</groupId>
+            <artifactId>catuns-spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

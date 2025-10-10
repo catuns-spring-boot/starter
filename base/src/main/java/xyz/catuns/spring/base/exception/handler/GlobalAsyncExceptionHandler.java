@@ -1,4 +1,4 @@
-package xyz.catuns.spring.base.exception;
+package xyz.catuns.spring.base.exception.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

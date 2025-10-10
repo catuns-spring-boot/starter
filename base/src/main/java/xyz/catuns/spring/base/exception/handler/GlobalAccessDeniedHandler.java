@@ -1,4 +1,4 @@
-package xyz.catuns.spring.base.exception;
+package xyz.catuns.spring.base.exception.handler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import xyz.catuns.spring.base.exception.ErrorMessage;
 
 import java.io.IOException;
 
