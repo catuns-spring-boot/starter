@@ -3,7 +3,7 @@ package xyz.catuns.spring.constraint.autoconfigure;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.test.context.runner.ApplicationContextRunner;
+import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
 import xyz.catuns.spring.constraint.handler.GlobalDataIntegrityExceptionHandler;
 import xyz.catuns.spring.constraint.parser.ConstraintViolationParser;
 import xyz.catuns.spring.constraint.strategy.postgresql.PostgreSQLUniqueStrategy;
@@ -12,8 +12,31 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ConstraintViolationAutoConfigurationTest {
 
-    private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-            .withConfiguration(AutoConfigurations.of(ConstraintViolationAutoConfiguration.class));
+    private final WebApplicationContextRunner contextRunner = new WebApplicationContextRunner()
+            .withConfiguration(AutoConfigurations.of(
+                    ConstraintViolationAutoConfiguration.class  // ← This loads your auto-config
+            ));
+
+    @Test
+    void debugBeans() {
+        contextRunner.run(context -> {
+            System.out.println("=== All Beans ===");
+            for (String beanName : context.getBeanDefinitionNames()) {
+                Object bean = context.getBean(beanName);
+                System.out.println(beanName + " : " + bean.getClass().getName());
+            }
+
+            System.out.println("\n=== Looking for our beans ===");
+            System.out.println("ConstraintViolationParser: " + context.containsBean("constraintViolationParser"));
+            System.out.println("ConstraintViolationProperties: " + context.getBeansOfType(ConstraintViolationProperties.class).size());
+            System.out.println("GenericStrategy: " + context.containsBean("genericStrategy"));
+            System.out.println("GlobalDataIntegrityExceptionHandler: " + context.containsBean("globalDataIntegrityExceptionHandler"));
+
+            // Check if auto-configuration was loaded
+            System.out.println("\n=== Auto-Configuration Loaded? ===");
+            System.out.println(context.getBeansOfType(ConstraintViolationAutoConfiguration.class));
+        });
+    }
 
     @Test
     void shouldAutoConfigureWhenEnabled() {
