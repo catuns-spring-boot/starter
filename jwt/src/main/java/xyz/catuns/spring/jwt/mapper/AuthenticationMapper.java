@@ -1,18 +1,46 @@
 package xyz.catuns.spring.jwt.mapper;
 
-import xyz.catuns.spring.jwt.controller.request.RegisterRequest;
-import xyz.catuns.spring.jwt.controller.response.LoginResponse;
-import xyz.catuns.spring.jwt.controller.response.RegisterResponse;
+import io.jsonwebtoken.Claims;
+import org.mapstruct.Mapper;
+import org.mapstruct.Named;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-public interface AuthenticationMapper<
-        UserEntity,
-        RegResp extends RegisterResponse,
-        LogResp extends LoginResponse,
-        RegReq extends RegisterRequest
-> {
-    RegResp toRegisterResponse(UserEntity user);
+import java.util.ArrayList;
+import java.util.List;
 
-    LogResp toLoginResponse(UserEntity user);
+import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
+import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.AUTHORITIES_CLAIM_KEY;
 
-    UserEntity map(RegReq registration);
+@Mapper(componentModel = SPRING)
+public interface AuthenticationMapper {
+
+    @Named("extractAuthoritiesList")
+    default List<String> extractAuthorities(Authentication auth) {
+        return auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
+    }
+
+    @Named("extractAuthoritiesString")
+    default String extractAuthorities(Claims claims) {
+        Object authoritiesClaim = claims.get(AUTHORITIES_CLAIM_KEY);
+        if (authoritiesClaim instanceof List<?> rawList) {
+            List<String> authoritiesList = new ArrayList<>();
+            for (Object obj : rawList) {
+                if (obj instanceof String) {
+                    authoritiesList.add((String) obj);
+                }
+            }
+            return String.join(",", authoritiesList);
+        } else {
+            return String.valueOf(authoritiesClaim);
+        }
+    }
+    @Named("toGrantedAuthority")
+    default GrantedAuthority toGrantedAuthority(String authority) {
+        return new SimpleGrantedAuthority(authority);
+    }
+
 }

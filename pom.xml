@@ -22,6 +22,7 @@
         <module>base</module>
         <module>jwt</module>
         <module>test-starter</module>
+        <module>constraint-violation</module>
     </modules>
 
     <url/>

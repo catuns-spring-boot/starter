@@ -8,8 +8,11 @@ import xyz.catuns.spring.jwt.dto.UserResponse;
 import xyz.catuns.spring.jwt.model.UserEntity;
 import xyz.catuns.spring.jwt.model.UserRole;
 
-@Mapper(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
-public interface UserEntityMapper extends AuthenticationMapper<UserEntity,UserResponse,UserLoginResponse, UserRegister> {
+import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
+
+@Mapper(componentModel = SPRING,
+        nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
+public interface UserEntityMapper extends AuthenticationServiceMapper<UserEntity,UserResponse,UserLoginResponse, UserRegister> {
 
     UserEntityMapper INSTANCE = Mappers.getMapper(UserEntityMapper.class);
 

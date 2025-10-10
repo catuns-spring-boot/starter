@@ -1,1 +1,1 @@
-xyz.catuns.spring.base.exception.GlobalExceptionHandler
+xyz.catuns.spring.base.autoconfigure.BaseAutoConfiguration

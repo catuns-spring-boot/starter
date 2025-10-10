@@ -44,16 +44,19 @@ public class SecurityFilterChainCustomizers {
     @Bean
     @ConditionalOnMissingBean
     AuthorizeRequestCustomizer authorizeRequestCustomizer() {
-        return registry -> registry
-                .requestMatchers(
-                        "/swagger-ui/**",
-                        "/swagger/index.html",
-                        "/v3/api/docs/**",
-                        "/error",
-                        "/auth/login",
-                        "/auth/register")
-                .permitAll()
-                .anyRequest().authenticated();
+        return registry -> {
+            registry.requestMatchers(
+                            "/swagger-ui/**",
+                            "/swagger/index.html",
+                            "/v3/api-docs/**",
+                            "/actuator/health",
+                            "/favicon.ico",
+                            "/error",
+                            "/auth/login",
+                            "/auth/register")
+                    .permitAll();
+            registry.anyRequest().authenticated();
+        };
     }
 
 }

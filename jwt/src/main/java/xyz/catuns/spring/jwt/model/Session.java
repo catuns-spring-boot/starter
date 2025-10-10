@@ -20,10 +20,6 @@ public class Session {
     @Column(name = "expires", nullable = false)
     private LocalDateTime expires;
 
-    @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "id")
-    private UserEntity user;
-
     public boolean isExpired() {
         return LocalDateTime.now().isAfter(expires);
     }

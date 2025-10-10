@@ -5,8 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -18,32 +17,15 @@ import xyz.catuns.spring.jwt.security.jwt.JwtService;
 import java.io.IOException;
 
 import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.AUTHORIZATION_HEADER_KEY;
+import static xyz.catuns.spring.jwt.security.jwt.Constants.Jwt.BEARER_PREFIX;
 
-
+@Slf4j
 public class JwtTokenValidatorFilter extends OncePerRequestFilter {
-    private static final Logger log = LoggerFactory.getLogger(JwtTokenValidatorFilter.class);
 
-    private static final String BEARER_PREFIX = "Bearer ";
-
-    private final String shouldNotFilterPath;
     private final JwtService jwtService;
 
-    /**
-     *
-     * @param shouldNotFilterPath the path that should not be filtered. eg: `/api/users/user`
-     */
-    public JwtTokenValidatorFilter(JwtService jwtService, String shouldNotFilterPath) {
-        this.shouldNotFilterPath = shouldNotFilterPath;
-        this.jwtService = jwtService;
-    }
-
-    /**
-     *
-     * Sets the default path that should not be filtered to `/api/users/user`
-     *
-     */
     public JwtTokenValidatorFilter(JwtService jwtService) {
-        this(jwtService, "/api/users/user");
+        this.jwtService = jwtService;
     }
 
     /**
@@ -77,9 +59,4 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getServletPath().equals(shouldNotFilterPath);
-    }
 }

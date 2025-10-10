@@ -2,9 +2,9 @@ package xyz.catuns.spring.base.mapper;
 
 
 import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
 import xyz.catuns.spring.base.dto.PageList;
+import xyz.catuns.spring.base.mapper.annotations.ToPageList;
 
 /**
  * Child interfaces should be annotated {@link Mapper}
@@ -14,9 +14,7 @@ import xyz.catuns.spring.base.dto.PageList;
  */
 public interface EntityMapper<T, D, E> {
 
-    @Mapping(target = "page", source = "pageable.pageNumber")
-    @Mapping(target = "pageSize", source = "pageable.pageSize")
-    @Mapping(target = "items", source = "content", defaultExpression = "java(new ArrayList<>())")
+    @ToPageList
     PageList<D> toPageList(Page<T> page);
 
     D toDetails(T entity);

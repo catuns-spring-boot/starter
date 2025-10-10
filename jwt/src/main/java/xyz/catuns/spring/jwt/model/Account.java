@@ -53,9 +53,4 @@ public class Account {
     
     @Column(name = "oath_token")
     private String oathToken;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-
 }

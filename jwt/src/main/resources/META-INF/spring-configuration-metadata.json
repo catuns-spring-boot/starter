@@ -26,32 +26,32 @@
     {
       "name": "auth.jwt.expiration",
       "type": "java.time.Duration",
-      "description": "JWT token expiration duration",
+      "description": "JWT token expiration duration.",
       "defaultValue": "10 hours"
     },
     {
       "name": "auth.jwt.refresh",
       "type": "java.time.Duration",
-      "description": "Refresh token token duration",
+      "description": "Refresh token token duration.",
       "defaultValue": "14 days"
     },
     {
       "name": "auth.jwt.enabled",
       "type": "java.lang.Boolean",
-      "description": "Enable JWT autoconfiguration",
-      "defaultValue": "true"
+      "description": "Enable JWT autoconfiguration.",
+      "defaultValue": "false"
     },
     {
       "name": "auth.user.enabled",
       "type": "java.lang.Boolean",
-      "description": "Enable creating users",
-      "defaultValue": "true"
+      "description": "Enable creating users.",
+      "defaultValue": "false"
     },
     {
       "name": "auth.user.users",
       "type": "java.util.List<xyz.catuns.spring.jwt.config.user.UserConfigurationProperties.User>",
       "sourceType": "xyz.catuns.spring.jwt.config.user.UserConfigurationProperties",
-      "description": "List of users to create"
+      "description": "List of users to create."
     }
   ],
   "hints": [
