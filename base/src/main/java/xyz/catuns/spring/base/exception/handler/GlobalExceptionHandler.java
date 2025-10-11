@@ -12,7 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import xyz.catuns.spring.base.autoconfigure.ExceptionHandlerProperties;
+import xyz.catuns.spring.base.autoconfigure.properties.ExceptionHandlerProperties;
 import xyz.catuns.spring.base.exception.controller.ControllerException;
 
 import java.net.URI;
