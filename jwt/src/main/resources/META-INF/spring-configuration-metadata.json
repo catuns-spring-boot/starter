@@ -1,57 +1,40 @@
 {
   "groups": [
     {
-      "name": "auth.jwt",
-      "type": "xyz.catuns.spring.jwt.security.jwt.JwtProperties",
-      "sourceType": "xyz.catuns.spring.jwt.security.jwt.JwtProperties"
-    },
-    {
-      "name": "auth.user",
-      "type": "xyz.catuns.spring.jwt.config.user.UserConfigurationProperties",
-      "sourceType": "xyz.catuns.spring.jwt.config.user.UserConfigurationProperties"
+      "name": "jwt",
+      "type": "xyz.catuns.spring.jwt.autoconfigure.properties.JwtProperties",
+      "sourceType": "xyz.catuns.spring.jwt.autoconfigure.properties.JwtProperties"
     }
   ],
   "properties": [
     {
-      "name": "auth.jwt.secret",
+      "name": "jwt.secret",
       "type": "java.lang.String",
       "description": "JWT secret."
     },
     {
-      "name": "auth.jwt.issuer",
+      "name": "jwt.issuer",
       "type": "java.lang.String",
       "description": "Issuer of the JWT.",
       "defaultValue": "https://catuns.xyz/"
     },
     {
-      "name": "auth.jwt.expiration",
+      "name": "jwt.expiration",
       "type": "java.time.Duration",
       "description": "JWT token expiration duration.",
       "defaultValue": "10 hours"
     },
     {
-      "name": "auth.jwt.refresh",
+      "name": "jwt.refresh",
       "type": "java.time.Duration",
       "description": "Refresh token token duration.",
       "defaultValue": "14 days"
     },
     {
-      "name": "auth.jwt.enabled",
+      "name": "jwt.enabled",
       "type": "java.lang.Boolean",
       "description": "Enable JWT autoconfiguration.",
       "defaultValue": "false"
-    },
-    {
-      "name": "auth.user.enabled",
-      "type": "java.lang.Boolean",
-      "description": "Enable creating users.",
-      "defaultValue": "false"
-    },
-    {
-      "name": "auth.user.users",
-      "type": "java.util.List<xyz.catuns.spring.jwt.config.user.UserConfigurationProperties.User>",
-      "sourceType": "xyz.catuns.spring.jwt.config.user.UserConfigurationProperties",
-      "description": "List of users to create."
     }
   ],
   "hints": [

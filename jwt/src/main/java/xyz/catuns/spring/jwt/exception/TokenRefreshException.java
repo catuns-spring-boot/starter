@@ -1,6 +1,8 @@
 package xyz.catuns.spring.jwt.exception;
 
-public class TokenRefreshException extends AuthorizationException{
+import xyz.catuns.spring.base.exception.controller.UnauthorizedException;
+
+public class TokenRefreshException extends UnauthorizedException {
     public TokenRefreshException(String message) {
         super(message);
     }
