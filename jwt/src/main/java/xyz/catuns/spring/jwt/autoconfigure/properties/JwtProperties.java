@@ -2,6 +2,7 @@ package xyz.catuns.spring.jwt.autoconfigure.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import xyz.catuns.spring.jwt.core.service.JwtService;
 
 import java.time.Duration;
 
@@ -11,6 +12,10 @@ import static xyz.catuns.spring.jwt.utils.Constants.Config.JWT_CONFIG_PROPERTY_P
 @ConfigurationProperties(prefix = JWT_CONFIG_PROPERTY_PREFIX)
 public class JwtProperties {
 
+    /**
+     * Enable auto configuration of {@link JwtService}
+     */
+    private boolean enabled;
     /**
      * Issuer of the token
      */

@@ -3,8 +3,7 @@ package xyz.catuns.spring.jwt.autoconfigure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.autoconfigure.condition.*;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,8 +27,26 @@ import xyz.catuns.spring.jwt.security.configurer.JwtFilterConfigurer;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * JWT Security Auto-Configuration
+ *
+ * Conditionally configures:
+ * - Security filter chain
+ * - Filter configurer
+ * - Exception handling
+ * - CORS
+ *
+ * Only applies when:
+ * - This is a web application
+ * - Spring Security is on classpath
+ * - JWT security is enabled via properties
+ * - JwtService bean exists
+ */
 @AutoConfiguration
 @ConditionalOnWebApplication
+@ConditionalOnClass(HttpSecurity.class)
+@ConditionalOnBean(JwtService.class)
+@ConditionalOnProperty(prefix = "jwt.security", name = "enabled", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties(JwtSecurityProperties.class)
 public class JwtSecurityAutoConfiguration {
 
@@ -64,6 +81,7 @@ public class JwtSecurityAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
+    @ConditionalOnProperty(prefix = "jwt.security.cors", name = "enabled", havingValue = "true", matchIfMissing = true)
     public CorsConfigurationSource corsConfigurationSource(JwtSecurityProperties properties) {
         if (!properties.getCors().isEnabled()) {
             return request -> null;
@@ -105,6 +123,11 @@ public class JwtSecurityAutoConfiguration {
             @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver
     ) {
         return new JwtFilterConfigurer(jwtService)
+                .validatorHeaderName(properties.getValidation().getHeaderName())
+                .validatorTokenPrefix(properties.getValidation().getTokenPrefix())
+                .generatorTokenHeader(properties.getGeneration().getHeaderName())
+                .generatorTokenPrefix(properties.getGeneration().getTokenPrefix())
+                .generatorExpirationHeader(properties.getGeneration().getExpirationHeaderName())
                 .exceptionResolver(resolver);
     }
 

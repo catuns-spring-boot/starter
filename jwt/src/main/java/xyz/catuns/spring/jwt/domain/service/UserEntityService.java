@@ -5,11 +5,11 @@ import xyz.catuns.spring.jwt.exception.EmailNotFoundException;
 import xyz.catuns.spring.jwt.domain.entity.UserEntity;
 import xyz.catuns.spring.jwt.domain.repository.UserEntityRepository;
 
-public class UserEntityService implements UserDetailsService {
+public class UserEntityService<E extends UserEntity> implements UserDetailsService {
 
-    private final UserEntityRepository<?> userEntityRepository;
+    private final UserEntityRepository<E> userEntityRepository;
 
-    public UserEntityService(UserEntityRepository<?> userEntityRepository) {
+    public UserEntityService(UserEntityRepository<E> userEntityRepository) {
         this.userEntityRepository = userEntityRepository;
     }
 

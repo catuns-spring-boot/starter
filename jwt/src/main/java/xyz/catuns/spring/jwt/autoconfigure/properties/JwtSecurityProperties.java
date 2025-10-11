@@ -11,7 +11,10 @@ import static xyz.catuns.spring.jwt.utils.Constants.Jwt.BEARER_TOKEN_PREFIX;
 @Data
 @ConfigurationProperties(prefix = JWT_SECURITY_CONFIG_PROPERTY_PREFIX)
 public class JwtSecurityProperties {
-
+    /**
+     * Enables JWT security autoconfiguration
+     */
+    private boolean enabled = true;
     /**
      * Public paths that don't require authentication
      */
