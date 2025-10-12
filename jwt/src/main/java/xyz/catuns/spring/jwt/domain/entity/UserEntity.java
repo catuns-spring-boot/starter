@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -25,10 +27,12 @@ public abstract class UserEntity implements UserDetails {
     protected UUID id;
 
     @CreatedDate
+    @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     protected Instant createdAt;
 
     @LastModifiedDate
+    @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     protected Instant updatedAt;
 
@@ -38,7 +42,7 @@ public abstract class UserEntity implements UserDetails {
     @Column(name = "pwd_hash", nullable = false)
     protected String password;
 
-    public abstract <T extends Collection<R> , R extends RoleEntity> T getRoles();
+    public abstract Collection<? extends RoleEntity>  getRoles();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

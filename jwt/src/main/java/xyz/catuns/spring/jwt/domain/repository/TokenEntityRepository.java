@@ -10,13 +10,18 @@ import java.util.Optional;
 
 public interface TokenEntityRepository<T extends TokenEntity> extends JpaRepository<T, Long> {
 
-    Optional<T> findByIdentifierAndExpiredAfter(
+    Optional<T> findByIdentifierAndExpiresAfter(
             @Param("identifier") String identifier,
-            @Param("expiration") Instant expiration);
+            @Param("expires") Instant expiration);
 
     List<T> findAllByIdentifier(@Param("identifier") String identifier);
 
     Optional<T> findByToken(String token);
 
     void deleteAllByIdentifier(String identifier);
+
+    void deleteAllByIdentifierAndExpiresBefore(
+            @Param("identifier") String identifier,
+            @Param("expires") Instant expiration
+    );
 }

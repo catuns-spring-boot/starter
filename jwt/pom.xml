@@ -20,9 +20,11 @@
 		<dependency>
 			<groupId>xyz.catuns.spring</groupId>
 			<artifactId>catuns-spring-boot-starter-base</artifactId>
-			<version>${revision}</version>
 		</dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -57,7 +59,6 @@
         <dependency>
             <groupId>com.github.slugify</groupId>
             <artifactId>slugify</artifactId>
-            <optional>true</optional>
         </dependency>
 		<dependency>
 			<groupId>xyz.catuns.spring</groupId>

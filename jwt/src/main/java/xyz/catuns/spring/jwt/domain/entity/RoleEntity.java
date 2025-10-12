@@ -1,5 +1,6 @@
 package xyz.catuns.spring.jwt.domain.entity;
 
+import com.github.slugify.Slugify;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,17 +25,13 @@ public abstract class RoleEntity implements GrantedAuthority, Slugifier {
     @Column(name = "name", nullable = false, length = 50)
     protected String name;
 
-    public RoleEntity(String name) {
-        setName(name);
-    }
-
     public void setName(String name) {
         this.name = slugify(name);
     }
 
     @Override
     public String slugify(String name) {
-        return Slugifier.INSTANCE
+        return new Slugify()
                 .withUnderscoreSeparator(true)
                 .withLowerCase(false)
                 .slugify(name)

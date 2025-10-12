@@ -1,39 +1,35 @@
 package xyz.catuns.spring.jwt.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.Objects;
 
-
-public class TokenEntity {
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
+public abstract class TokenEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    protected Long id;
 
     @Column(name = "identifier", nullable = false)
-    private String identifier;
+    protected String identifier;
 
     @Column(name = "token", nullable = false, unique = true)
-    private String token;
+    protected String token;
 
     @Column(name = "expires", nullable = false)
-    private Instant expires;
+    protected Instant expires;
 
     @Column(name = "issued_at", nullable = false)
-    private Instant issuedAt;
+    protected Instant issuedAt;
 
-
-    public TokenEntity(String identifier, String token, Instant expires, Instant issuedAt) {
-        this.identifier = identifier;
-        this.token = token;
-        this.expires = expires;
-        this.issuedAt = issuedAt;
-    }
-
-    public TokenEntity() {
-    }
 
     @Override
     public boolean equals(Object o) {
