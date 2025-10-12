@@ -1,6 +1,7 @@
 package xyz.catuns.spring.jwt.autoconfigure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.*;
@@ -42,6 +43,7 @@ import java.util.List;
  * - JWT security is enabled via properties
  * - JwtService bean exists
  */
+@Slf4j
 @AutoConfiguration
 @EnableConfigurationProperties(JwtSecurityProperties.class)
 @ConditionalOnWebApplication
@@ -54,6 +56,7 @@ public class JwtSecurityAutoConfiguration {
 
     public JwtSecurityAutoConfiguration(JwtSecurityProperties properties) {
         this.properties = properties;
+        log.debug("init JwtSecurityAutoConfiguration {}", properties);
     }
 
     /**
@@ -63,6 +66,7 @@ public class JwtSecurityAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(name = "jwtAuthenticationEntryPoint")
     public AuthenticationEntryPoint jwtAuthenticationEntryPoint(ObjectMapper objectMapper) {
+        log.debug("creating AuthenticationEntryPoint");
         return new JwtAuthenticationEntryPoint(objectMapper, properties);
     }
 
@@ -73,6 +77,7 @@ public class JwtSecurityAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(name = "jwtAccessDeniedHandler")
     public AccessDeniedHandler jwtAccessDeniedHandler(ObjectMapper objectMapper) {
+        log.debug("creating AccessDeniedHandler");
         return new JwtAccessDeniedHandler(objectMapper, properties);
     }
 
@@ -86,7 +91,7 @@ public class JwtSecurityAutoConfiguration {
         if (!properties.getCors().isEnabled()) {
             return request -> null;
         }
-
+        log.debug("creating CorsConfigurationSource");
         CorsConfiguration config = new CorsConfiguration();
 
         JwtSecurityProperties.CorsConfig cors = properties.getCors();
@@ -122,6 +127,7 @@ public class JwtSecurityAutoConfiguration {
             JwtService<Authentication> jwtService,
             @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver
     ) {
+        log.debug("creating JwtFilterConfigurer");
         return new JwtFilterConfigurer(jwtService)
                 .validatorHeaderName(properties.getValidation().getHeaderName())
                 .validatorTokenPrefix(properties.getValidation().getTokenPrefix())
@@ -140,6 +146,7 @@ public class JwtSecurityAutoConfiguration {
             AccessDeniedHandler jwtAccessDeniedHandler,
             AuthenticationEntryPoint jwtAuthenticationEntryPoint
     ) {
+        log.debug("creating JwtExceptionHandlingConfigurer");
         return new JwtExceptionHandlingConfigurer()
                 .properties(properties)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -157,6 +164,7 @@ public class JwtSecurityAutoConfiguration {
             CorsConfigurationSource corsConfigurationSource
     ) throws Exception {
 
+        log.debug("creating SecurityFilterChain");
         // Apply JWT configurer
         http.with(JwtSecurityConfigurer.jwt(), jwt -> {
             jwt.exceptionConfigurer(() -> exceptionConfigurer);
@@ -193,4 +201,6 @@ public class JwtSecurityAutoConfiguration {
 
         return http.build();
     }
+
+
 }

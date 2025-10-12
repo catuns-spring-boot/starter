@@ -1,7 +1,8 @@
 package xyz.catuns.spring.jwt.annotations;
 
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import xyz.catuns.spring.jwt.autoconfigure.JwtAuthenticationAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
+import xyz.catuns.spring.jwt.config.JwtDomainRegistrar;
 
 import java.lang.annotation.*;
 
@@ -24,14 +25,19 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@ImportAutoConfiguration(JwtAuthenticationAutoConfiguration.class)
+@ImportAutoConfiguration(
+        classes = JwtDomainRegistrar.class,
+        exclude = {
+                UserDetailsServiceAutoConfiguration.class
+        })
+
 public @interface EnableJwtSecurity {
 
     /**
      * Packages to scan for domain entities and repositories
      * If specified, enables full domain scanning
      */
-    String[] domainPackages() default {};
+    String[] scanPackages() default {};
 
     /**
      * Concrete UserEntity implementation class

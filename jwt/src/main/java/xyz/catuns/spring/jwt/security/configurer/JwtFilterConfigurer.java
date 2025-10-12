@@ -2,6 +2,7 @@ package xyz.catuns.spring.jwt.security.configurer;
 
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import xyz.catuns.spring.jwt.core.service.JwtService;
@@ -24,6 +25,7 @@ import static xyz.catuns.spring.jwt.utils.Constants.Jwt.BEARER_TOKEN_PREFIX;
  * Builder for configuring JWT filters
  * Used by JwtSecurityConfigurer to provide fluent API
  */
+@Slf4j
 public class JwtFilterConfigurer {
 
     @Setter
@@ -47,6 +49,7 @@ public class JwtFilterConfigurer {
 
     public JwtFilterConfigurer(JwtService<Authentication> jwtService) {
         this.jwtService = jwtService;
+        log.debug("init JwtFilterConfigurer {}", jwtService);
     }
 
     // Validator configuration

@@ -1,5 +1,7 @@
 package xyz.catuns.spring.jwt.autoconfigure;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -11,19 +13,24 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import xyz.catuns.spring.jwt.config.DomainMetadata;
 import xyz.catuns.spring.jwt.autoconfigure.properties.JwtAuthenticationProperties;
-import xyz.catuns.spring.jwt.config.JwtSecurityConfigurationSelector;
 import xyz.catuns.spring.jwt.core.provider.UsernamePwdAuthenticationProvider;
 import xyz.catuns.spring.jwt.domain.repository.UserEntityRepository;
 import xyz.catuns.spring.jwt.domain.service.UserEntityService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * JWT Authentication Auto-Configuration with domain support
  */
+@Slf4j
 @AutoConfiguration
 @EnableConfigurationProperties(JwtAuthenticationProperties.class)
 @ConditionalOnClass(AuthenticationManager.class)
@@ -33,6 +40,10 @@ public class JwtAuthenticationAutoConfiguration {
     @Autowired(required = false)
     private ApplicationContext applicationContext;
 
+    public JwtAuthenticationAutoConfiguration(JwtAuthenticationProperties  properties) {
+        log.debug("init JwtAuthenticationAutoConfiguration {}", properties);
+    }
+
     /**
      * Default AuthenticationManager
      */
@@ -40,8 +51,9 @@ public class JwtAuthenticationAutoConfiguration {
     @ConditionalOnMissingBean
     @ConditionalOnBean(AuthenticationConfiguration.class)
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
+            AuthenticationConfiguration configuration
+    ) throws Exception {
+       return configuration.getAuthenticationManager();
     }
 
     /**
@@ -50,19 +62,36 @@ public class JwtAuthenticationAutoConfiguration {
      * This uses the concrete UserEntityRepository from the user's domain
      */
     @Bean
-    @ConditionalOnMissingBean(UserDetailsService.class) // this should be UserEntityService
-    @ConditionalOnBean({UserEntityRepository.class, JwtSecurityConfigurationSelector.DomainConfiguration.class})
+    @ConditionalOnMissingBean(UserDetailsService.class)
+    @ConditionalOnBean({UserEntityRepository.class, DomainMetadata.class})
+    @ConditionalOnProperty(
+            prefix = "jwt.auth",
+            name = "use-entity-service",
+            havingValue = "true",
+            matchIfMissing = true
+    )
     public UserEntityService<?> userEntityService(
             UserEntityRepository<?> userEntityRepository,
-            JwtSecurityConfigurationSelector.DomainConfiguration domainConfig) {
-
-        Class<?> userEntityClass = domainConfig.getUserEntityClass();
-
-        if (userEntityClass == Object.class) {
+            DomainMetadata domainMetadata
+    ) {
+        Class<?> domainClazz = domainMetadata.getUserRepositoryClass();
+        if (domainClazz == Object.class) {
             throw new IllegalStateException(
-                    "UserEntity class must be specified in @EnableJwtSecurity when using UserEntityService"
+                    "UserEntityRepository class must be specified in @EnableJwtSecurity when using UserEntityService"
             );
         }
+
+        Class<?> beanClazz = userEntityRepository.getClass();
+        if (!domainClazz.isAssignableFrom(beanClazz)) {
+            throw new IllegalStateException(
+                    "%s class must be %s as specified in @EnableJwtSecurity"
+                            .formatted(beanClazz.getName(), domainClazz.getName())
+            );
+        }
+
+        log.info("Creating UserEntityService with domain repository: {}",
+                beanClazz.getName());
+
 
         return new UserEntityService<>(userEntityRepository);
     }
@@ -76,6 +105,7 @@ public class JwtAuthenticationAutoConfiguration {
     public AuthenticationProvider usernamePasswordAuthenticationProvider(
             UserEntityService<?> userDetailsService,
             PasswordEncoder passwordEncoder) {
+        log.debug("creating UsernamePwdAuthenticationProvider");
         return new UsernamePwdAuthenticationProvider(userDetailsService, passwordEncoder);
     }
 
@@ -85,6 +115,7 @@ public class JwtAuthenticationAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public PasswordEncoder passwordEncoder() {
+        log.debug("creating PasswordEncoder");
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }

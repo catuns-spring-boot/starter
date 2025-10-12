@@ -1,16 +1,19 @@
 package xyz.catuns.spring.jwt.domain.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import xyz.catuns.spring.jwt.domain.entity.UserEntity;
 import xyz.catuns.spring.jwt.domain.repository.UserEntityRepository;
 import xyz.catuns.spring.jwt.exception.EmailNotFoundException;
 
+@Slf4j
 public class UserEntityService<E extends UserEntity> implements UserDetailsService {
 
     protected final UserEntityRepository<E> userEntityRepository;
 
     public UserEntityService(UserEntityRepository<E> userEntityRepository) {
         this.userEntityRepository = userEntityRepository;
+        log.debug("initializing UserEntityService()");
     }
 
     /**

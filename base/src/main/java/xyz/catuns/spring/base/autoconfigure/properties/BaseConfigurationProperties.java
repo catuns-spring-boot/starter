@@ -14,7 +14,7 @@ import static xyz.catuns.spring.base.utils.Constants.BASE_CONFIG_PROPERTY_PREFIX
  */
 @Data
 @ConfigurationProperties(prefix = BASE_CONFIG_PROPERTY_PREFIX)
-class BaseConfigurationProperties {
+public class BaseConfigurationProperties {
 
 
 }

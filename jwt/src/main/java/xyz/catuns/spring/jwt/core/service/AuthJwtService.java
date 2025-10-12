@@ -3,6 +3,7 @@ package xyz.catuns.spring.jwt.core.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -14,6 +15,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Set;
 
+@Slf4j
 public class AuthJwtService extends AbstractJwtService<Authentication> {
 
     public static final String AUTHORITIES_CLAIM_KEY = "authorities";
@@ -21,6 +23,7 @@ public class AuthJwtService extends AbstractJwtService<Authentication> {
 
     public AuthJwtService(JwtProperties properties) throws MissingSecretException {
         super(properties);
+        log.debug("init AuthJwtService");
     }
 
     /**

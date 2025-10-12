@@ -216,7 +216,7 @@ public class ConstraintViolationAutoConfiguration {
         allStrategies.remove(genericStrategy);
         allStrategies.add(genericStrategy);
 
-        log.info("Constraint Violation Parser initialized with {} strategies", allStrategies.size());
+        log.debug("Constraint Violation Parser initialized with {} strategies", allStrategies.size());
 
         return new ConstraintViolationParser(allStrategies);
     }
@@ -228,7 +228,7 @@ public class ConstraintViolationAutoConfiguration {
             ConstraintViolationParser parser,
             ConstraintViolationProperties properties
     ) {
-        log.info("Registering Global Data Integrity Exception Handler");
+        log.debug("Registering Global Data Integrity Exception Handler");
         return new GlobalDataIntegrityExceptionHandler(parser, properties);
     }
 }

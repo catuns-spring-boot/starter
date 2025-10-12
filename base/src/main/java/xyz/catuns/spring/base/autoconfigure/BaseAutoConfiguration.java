@@ -16,6 +16,6 @@ import xyz.catuns.spring.base.autoconfigure.properties.BaseConfigurationProperti
 public class BaseAutoConfiguration {
 
     public BaseAutoConfiguration() {
-        log.info("Base Auto-Configuration initialized");
+        log.debug("Base Auto-Configuration initialized");
     }
 }
