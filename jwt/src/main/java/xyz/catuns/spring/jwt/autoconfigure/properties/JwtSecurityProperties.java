@@ -1,6 +1,8 @@
 package xyz.catuns.spring.jwt.autoconfigure.properties;
 
 import lombok.Data;
+import org.apache.catalina.security.SecurityConfig;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import static xyz.catuns.spring.jwt.utils.Constants.Headers.AUTHORIZATION_KEY;
@@ -21,10 +23,8 @@ public class JwtSecurityProperties {
     private String[] publicPaths = {
             "/swagger-ui/**",
             "/v3/api-docs/**",
-            "/actuator/health",
-            "/error",
-            "/auth/login",
-            "/auth/register"
+            "/actuator/health/**",
+            "/error/**",
     };
 
     /**
@@ -57,6 +57,8 @@ public class JwtSecurityProperties {
         private boolean validator = true;
         private boolean generator = true;
         private boolean exceptionHandler = true;
+        private boolean enabled = true;
+        private int order = SecurityProperties.DEFAULT_FILTER_ORDER;
     }
 
     @Data

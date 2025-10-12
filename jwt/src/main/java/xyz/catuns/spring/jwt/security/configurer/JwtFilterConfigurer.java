@@ -49,7 +49,6 @@ public class JwtFilterConfigurer {
 
     public JwtFilterConfigurer(JwtService<Authentication> jwtService) {
         this.jwtService = jwtService;
-        log.debug("init JwtFilterConfigurer {}", jwtService);
     }
 
     // Validator configuration

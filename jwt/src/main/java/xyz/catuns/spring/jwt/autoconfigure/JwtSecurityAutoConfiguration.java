@@ -7,10 +7,12 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.*;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.cors.CorsConfiguration;
@@ -18,6 +20,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import xyz.catuns.spring.jwt.autoconfigure.properties.JwtSecurityProperties;
+import xyz.catuns.spring.jwt.config.OrderedSecurityFilterChain;
 import xyz.catuns.spring.jwt.core.service.JwtService;
 import xyz.catuns.spring.jwt.exception.handler.JwtAccessDeniedHandler;
 import xyz.catuns.spring.jwt.exception.handler.JwtAuthenticationEntryPoint;
@@ -156,7 +159,8 @@ public class JwtSecurityAutoConfiguration {
      * Default JWT Security Filter Chain
      */
     @Bean
-    @ConditionalOnMissingBean(SecurityFilterChain.class)
+    @ConditionalOnMissingBean(name = "jwtSecurityFilterChain")
+    @ConditionalOnProperty(prefix = "jwt.security.filter", name = "enabled", havingValue = "true", matchIfMissing = true)
     public SecurityFilterChain jwtSecurityFilterChain(
             HttpSecurity http,
             JwtFilterConfigurer filterConfigurer,
@@ -198,8 +202,9 @@ public class JwtSecurityAutoConfiguration {
             }
             auth.anyRequest().authenticated();
         });
-
-        return http.build();
+        DefaultSecurityFilterChain chain = http.build();
+        int order = properties.getFilter().getOrder();
+        return new OrderedSecurityFilterChain(chain, order);
     }
 
 
