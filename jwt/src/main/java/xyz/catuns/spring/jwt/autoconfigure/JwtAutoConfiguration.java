@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import xyz.catuns.spring.jwt.autoconfigure.properties.JwtProperties;
 import xyz.catuns.spring.jwt.core.service.AuthJwtService;
 import xyz.catuns.spring.jwt.exception.MissingSecretException;
@@ -26,8 +25,6 @@ import xyz.catuns.spring.jwt.exception.MissingSecretException;
 @Slf4j
 @AutoConfiguration
 @EnableConfigurationProperties(JwtProperties.class)
-@Import({JwtSecurityAutoConfiguration.class,
-        JwtAuthenticationAutoConfiguration.class})
 public class JwtAutoConfiguration {
     private final JwtProperties properties;
 
@@ -44,7 +41,7 @@ public class JwtAutoConfiguration {
     @ConditionalOnMissingBean(AuthJwtService.class)
     @ConditionalOnProperty(prefix = "jwt", name = "enabled", havingValue = "true", matchIfMissing = true)
     public AuthJwtService defaultAuthJwtService() throws MissingSecretException {
-        log.debug("created AuthJwtService bean (defaultAuthJwtService)");
+        log.debug("creating AuthJwtService");
         return new AuthJwtService(properties);
     }
 }

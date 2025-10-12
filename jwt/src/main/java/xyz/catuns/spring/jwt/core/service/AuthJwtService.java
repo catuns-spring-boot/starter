@@ -23,7 +23,6 @@ public class AuthJwtService extends AbstractJwtService<Authentication> {
 
     public AuthJwtService(JwtProperties properties) throws MissingSecretException {
         super(properties);
-        log.debug("init AuthJwtService");
     }
 
     /**

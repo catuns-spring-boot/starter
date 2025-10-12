@@ -4,15 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.autoconfigure.domain.EntityScanPackages;
+import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.util.ClassUtils;
 import xyz.catuns.spring.jwt.annotations.EnableJwtSecurity;
 import xyz.catuns.spring.jwt.config.resolver.DomainMetadataResolver;
 
-import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Slf4j
@@ -38,11 +39,11 @@ public class JwtDomainRegistrar implements ImportBeanDefinitionRegistrar {
         if (dm.hasDomain()) {
             log.debug("Domain configuration detected");;
 
-            registerEntityScanPackages(registry, dm);
-            registerRepositoryScanPackages(registry, dm);
-            registerDomainMetadata(registry, dm);
-
+//            registerEntityScanPackages(registry, dm);
+//            registerRepositoryScanPackages(registry, dm);
         }
+
+        registerDomainMetadata(registry, dm);
     }
 
     private String determineBasePackage(AnnotationMetadata annotationMetadata) {
@@ -57,15 +58,27 @@ public class JwtDomainRegistrar implements ImportBeanDefinitionRegistrar {
 
     private void registerEntityScanPackages(BeanDefinitionRegistry registry, DomainMetadata dm) {
         Set<String> entityScanPackages = DomainMetadataResolver.determineEntityScanPackages(dm);
-        log.debug("Registering entity scan packages: {}", entityScanPackages);
         EntityScanPackages.register(registry, entityScanPackages);
+        log.debug("Registered entity scan packages: {}", entityScanPackages);
     }
 
     private void registerRepositoryScanPackages(BeanDefinitionRegistry registry, DomainMetadata dm) {
         Set<String> scanPackages = DomainMetadataResolver.determineRepositoryScanPackages(dm);
-//        log.debug("Registering repository scan packages: {}", scanPackages);
-//        JpaRepositoriesRegistrar repositoriesRegistrar = new JpaRepositoriesRegistrar();
-//        repositoriesRegistrar.registerRepositories(registry, domainPackages);
+        // Create a new scanner for JPA repositories
+        ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(registry, false);
+        scanner.setIncludeAnnotationConfig(false);
+
+        // Configure scanner filters for Spring Data JPA repositories
+        scanner.addIncludeFilter(new AnnotationTypeFilter(org.springframework.stereotype.Repository.class));
+        scanner.addIncludeFilter(new AssignableTypeFilter(org.springframework.data.repository.Repository.class));
+
+        // Actually perform the scanning
+        for (String basePackage : scanPackages) {
+            scanner.scan(basePackage);
+        }
+//
+        log.debug("Registered repository scan packages: {}", scanPackages);
+
     }
 
 

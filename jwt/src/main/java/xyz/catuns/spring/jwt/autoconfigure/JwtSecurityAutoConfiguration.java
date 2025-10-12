@@ -32,19 +32,24 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * JWT Security Auto-Configuration
+ * <h1>JWT Security Auto-Configuration</h1>
  *
+ * <p>
  * Conditionally configures:
- * - Security filter chain
- * - Filter configurer
- * - Exception handling
- * - CORS
- *
+ * <ul>
+ *      <li>Security filter chain</li>
+ *      <li>Filter configurer</li>
+ *      <li>Exception handling</li>
+ *      <li>CORS</li>
+ * </ul>
  * Only applies when:
- * - This is a web application
- * - Spring Security is on classpath
- * - JWT security is enabled via properties
- * - JwtService bean exists
+ * <ul>
+ *      <li>This is a web application</li>
+ *      <li>Spring Security is on classpath</li>
+ *      <li>JWT security is enabled via properties</li>
+ *      <li>JwtService bean exists</li>
+ * </ul>
+ * </p>
  */
 @Slf4j
 @AutoConfiguration

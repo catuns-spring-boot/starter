@@ -84,15 +84,12 @@ public class JwtAuthenticationAutoConfiguration {
         Class<?> beanClazz = userEntityRepository.getClass();
         if (!domainClazz.isAssignableFrom(beanClazz)) {
             throw new IllegalStateException(
-                    "%s class must be %s as specified in @EnableJwtSecurity"
-                            .formatted(beanClazz.getName(), domainClazz.getName())
+                    "UserRepository class must assignable to %s as specified in @EnableJwtSecurity"
+                            .formatted(domainClazz.getName())
             );
         }
 
-        log.info("Creating UserEntityService with domain repository: {}",
-                beanClazz.getName());
-
-
+        log.info("Creating UserEntityService");
         return new UserEntityService<>(userEntityRepository);
     }
 
