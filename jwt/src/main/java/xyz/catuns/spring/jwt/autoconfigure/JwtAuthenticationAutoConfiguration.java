@@ -101,7 +101,7 @@ public class JwtAuthenticationAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(AuthenticationProvider.class)
-    @ConditionalOnBean({UserEntityService.class, PasswordEncoder.class})
+    @ConditionalOnBean({UserEntityService.class})
     public AuthenticationProvider usernamePasswordAuthenticationProvider(
             UserEntityService<?> userDetailsService,
             PasswordEncoder passwordEncoder) {
