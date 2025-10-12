@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         if (properties.isLogExceptions()) {
-            log.error("Unhandled exception at {}: {}", request.getRequestURI(), e.getMessage(), e);
+            log.error("[{}] at {}: {}",e.getClass().getSimpleName(), request.getRequestURI(), e.getMessage());
         }
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(

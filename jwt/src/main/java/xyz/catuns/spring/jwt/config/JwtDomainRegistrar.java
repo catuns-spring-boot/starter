@@ -39,7 +39,7 @@ public class JwtDomainRegistrar implements ImportBeanDefinitionRegistrar {
         if (dm.hasDomain()) {
             log.debug("Domain configuration detected");;
 
-//            registerEntityScanPackages(registry, dm);
+            registerEntityScanPackages(registry, dm);
 //            registerRepositoryScanPackages(registry, dm);
         }
 

@@ -2,6 +2,7 @@ package xyz.catuns.spring.jwt.autoconfigure;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -25,6 +26,10 @@ import xyz.catuns.spring.jwt.exception.MissingSecretException;
 @Slf4j
 @AutoConfiguration
 @EnableConfigurationProperties(JwtProperties.class)
+@ImportAutoConfiguration(classes = {
+        JwtAuthenticationAutoConfiguration.class,
+        JwtSecurityAutoConfiguration.class
+})
 public class JwtAutoConfiguration {
     private final JwtProperties properties;
 

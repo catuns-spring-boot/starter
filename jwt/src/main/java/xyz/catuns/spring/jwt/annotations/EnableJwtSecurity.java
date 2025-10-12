@@ -8,13 +8,12 @@ import java.lang.annotation.*;
 
 /**
  * <h1>Enable JWT Security</h1>
- *
+ * <p>
  * Usage:
- *
+ * <p>
  * // Basic usage (no domain entities)
- * @EnableJwtSecurity
  *
- * With domain entities
+ * @EnableJwtSecurity With domain entities
  * <pre>
  * @EnableJwtSecurity(
  *     entityPackages = "com.myapp.domain",
@@ -26,11 +25,12 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @ImportAutoConfiguration(
-        classes = JwtDomainRegistrar.class,
+        classes = {
+                JwtDomainRegistrar.class
+        },
         exclude = {
                 UserDetailsServiceAutoConfiguration.class
         })
-
 public @interface EnableJwtSecurity {
 
     /**

@@ -75,11 +75,11 @@ public class JwtAuthenticationAutoConfiguration {
             DomainMetadata domainMetadata
     ) {
         Class<?> domainClazz = domainMetadata.getUserRepositoryClass();
-        if (domainClazz == Object.class) {
-            throw new IllegalStateException(
-                    "UserEntityRepository class must be specified in @EnableJwtSecurity when using UserEntityService"
-            );
-        }
+//        if (domainClazz == Object.class) {
+//            throw new IllegalStateException(
+//                    "UserEntityRepository class must be specified in @EnableJwtSecurity when using UserEntityService"
+//            );
+//        }
 
         Class<?> beanClazz = userEntityRepository.getClass();
         if (!domainClazz.isAssignableFrom(beanClazz)) {
