@@ -4,21 +4,21 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import xyz.catuns.spring.jwt.autoconfigure.properties.JwtProperties;
-import xyz.catuns.spring.jwt.exception.MissingSecretException;
+import xyz.catuns.spring.jwt.core.model.JwtToken;
 import xyz.catuns.spring.jwt.domain.entity.TokenEntity;
 import xyz.catuns.spring.jwt.domain.repository.TokenEntityRepository;
-import xyz.catuns.spring.jwt.core.model.JwtToken;
+import xyz.catuns.spring.jwt.exception.MissingSecretException;
 
 import java.time.Instant;
 import java.util.Date;
 
-public class RefreshJwtService<RefreshToken extends TokenEntity> extends AbstractJwtService<String> {
+public class TokenEntityJwtService<RefreshToken extends TokenEntity> extends AbstractJwtService<String> {
 
     public static final String IDENTIFIER_CLAIM_KEY = "identifier";
 
     protected final TokenEntityRepository<RefreshToken> repository;
 
-    public RefreshJwtService(JwtProperties properties, TokenEntityRepository<RefreshToken> repository) throws MissingSecretException {
+    public TokenEntityJwtService(JwtProperties properties, TokenEntityRepository<RefreshToken> repository) throws MissingSecretException {
         super(properties);
         this.repository = repository;
     }
@@ -50,12 +50,6 @@ public class RefreshJwtService<RefreshToken extends TokenEntity> extends Abstrac
     @Override
     public String validate(String token) {
         Claims claims = this.getClaims(token);
-        String identifier = String.valueOf(claims.get(IDENTIFIER_CLAIM_KEY));
-        RefreshToken refreshToken = repository.findByToken(token)
-                .orElseThrow();
-
-        return identifier;
+        return String.valueOf(claims.get(IDENTIFIER_CLAIM_KEY));
     }
-
-
 }

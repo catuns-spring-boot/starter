@@ -3,6 +3,9 @@ package xyz.catuns.spring.jwt.config.properties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * Jwt Entity domain properties
+ */
 @Data
 @ConfigurationProperties(prefix = "jwt.entity")
 public class JwtDomainProperties {

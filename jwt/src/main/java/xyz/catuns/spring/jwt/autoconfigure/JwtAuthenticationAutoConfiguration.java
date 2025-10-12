@@ -15,8 +15,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import xyz.catuns.spring.jwt.config.JwtSecurityConfigurationSelector;
 import xyz.catuns.spring.jwt.autoconfigure.properties.JwtAuthenticationProperties;
+import xyz.catuns.spring.jwt.config.JwtSecurityConfigurationSelector;
 import xyz.catuns.spring.jwt.core.provider.UsernamePwdAuthenticationProvider;
 import xyz.catuns.spring.jwt.domain.repository.UserEntityRepository;
 import xyz.catuns.spring.jwt.domain.service.UserEntityService;
@@ -50,7 +50,7 @@ public class JwtAuthenticationAutoConfiguration {
      * This uses the concrete UserEntityRepository from the user's domain
      */
     @Bean
-    @ConditionalOnMissingBean(UserDetailsService.class)
+    @ConditionalOnMissingBean(UserDetailsService.class) // this should be UserEntityService
     @ConditionalOnBean({UserEntityRepository.class, JwtSecurityConfigurationSelector.DomainConfiguration.class})
     public UserEntityService<?> userEntityService(
             UserEntityRepository<?> userEntityRepository,

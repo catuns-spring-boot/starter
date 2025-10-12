@@ -7,8 +7,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import xyz.catuns.spring.jwt.autoconfigure.properties.JwtProperties;
-import xyz.catuns.spring.jwt.exception.MissingSecretException;
 import xyz.catuns.spring.jwt.core.model.JwtToken;
+import xyz.catuns.spring.jwt.exception.MissingSecretException;
 
 import java.time.Instant;
 import java.util.Date;

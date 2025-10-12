@@ -66,6 +66,11 @@
                 <artifactId>slugify</artifactId>
                 <version>2.4</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>3.5.5</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -92,19 +97,33 @@
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
                         </path>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
+
+                        <!-- 2. Lombok-MapStruct binding - allows MapStruct to see Lombok-generated code -->
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok-mapstruct-binding</artifactId>
                             <version>0.2.0</version>
                         </path>
+
+                        <!-- 3. MapStruct - needs Lombok's generated getters/setters -->
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+
+                        <!-- 4. Spring Boot Configuration Processor - needs all getters/setters present -->
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                            <version>${spring.boot.version}</version>  <!-- Add explicit version -->
+                        </path>
+
+                        <!-- 5. Spring Boot AutoConfigure Processor LAST (if needed) -->
                         <path>
                             <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-autoconfigure-processor</artifactId>
+                            <version>${spring.boot.version}</version>  <!-- Add explicit version -->
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

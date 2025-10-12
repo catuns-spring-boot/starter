@@ -8,6 +8,9 @@ import java.time.Duration;
 
 import static xyz.catuns.spring.jwt.utils.Constants.Config.JWT_CONFIG_PROPERTY_PREFIX;
 
+/**
+ * Properties for defining Jwt Service
+ */
 @Data
 @ConfigurationProperties(prefix = JWT_CONFIG_PROPERTY_PREFIX)
 public class JwtProperties {
@@ -15,7 +18,7 @@ public class JwtProperties {
     /**
      * Enable auto configuration of {@link JwtService}
      */
-    private boolean enabled;
+    private boolean enabled = true;
     /**
      * Issuer of the token
      */

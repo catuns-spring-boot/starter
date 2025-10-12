@@ -43,11 +43,11 @@ import java.util.List;
  * - JwtService bean exists
  */
 @AutoConfiguration
+@EnableConfigurationProperties(JwtSecurityProperties.class)
 @ConditionalOnWebApplication
 @ConditionalOnClass(HttpSecurity.class)
 @ConditionalOnBean(JwtService.class)
 @ConditionalOnProperty(prefix = "jwt.security", name = "enabled", havingValue = "true", matchIfMissing = true)
-@EnableConfigurationProperties(JwtSecurityProperties.class)
 public class JwtSecurityAutoConfiguration {
 
     private final JwtSecurityProperties properties;
