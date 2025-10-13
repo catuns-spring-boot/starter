@@ -1,13 +1,12 @@
 package xyz.catuns.spring.jwt.autoconfigure.properties;
 
 import lombok.Data;
-import org.apache.catalina.security.SecurityConfig;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import static xyz.catuns.spring.jwt.utils.Constants.Config.JWT_SECURITY_CONFIG_PROPERTY_PREFIX;
 import static xyz.catuns.spring.jwt.utils.Constants.Headers.AUTHORIZATION_KEY;
 import static xyz.catuns.spring.jwt.utils.Constants.Headers.TOKEN_EXPIRATION_KEY;
-import static xyz.catuns.spring.jwt.utils.Constants.Config.JWT_SECURITY_CONFIG_PROPERTY_PREFIX;
 import static xyz.catuns.spring.jwt.utils.Constants.Jwt.BEARER_TOKEN_PREFIX;
 
 @Data
