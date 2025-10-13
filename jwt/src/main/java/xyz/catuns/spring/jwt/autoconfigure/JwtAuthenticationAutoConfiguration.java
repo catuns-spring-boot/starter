@@ -89,7 +89,7 @@ public class JwtAuthenticationAutoConfiguration {
             );
         }
 
-        log.info("Creating UserEntityService");
+        log.info("Registering UserEntityService");
         return new UserEntityService<>(userEntityRepository);
     }
 
@@ -102,7 +102,7 @@ public class JwtAuthenticationAutoConfiguration {
     public AuthenticationProvider usernamePasswordAuthenticationProvider(
             UserEntityService<?> userDetailsService,
             PasswordEncoder passwordEncoder) {
-        log.debug("creating UsernamePwdAuthenticationProvider");
+        log.debug("Registering UsernamePwdAuthenticationProvider");
         return new UsernamePwdAuthenticationProvider(userDetailsService, passwordEncoder);
     }
 
@@ -112,7 +112,7 @@ public class JwtAuthenticationAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public PasswordEncoder passwordEncoder() {
-        log.debug("creating PasswordEncoder");
+        log.debug("Registering PasswordEncoder");
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
