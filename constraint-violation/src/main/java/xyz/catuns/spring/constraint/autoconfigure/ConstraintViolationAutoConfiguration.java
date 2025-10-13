@@ -50,7 +50,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnPostgreSQL
     @ConditionalOnMissingBean(name = "postgresqlUniqueStrategy")
     public PostgreSQLUniqueStrategy postgresqlUniqueStrategy() {
-        log.debug("Registering PostgreSQL unique constraint strategy");
+        log.info("Registering PostgreSQL unique constraint strategy");
         return new PostgreSQLUniqueStrategy();
     }
 
@@ -58,7 +58,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnPostgreSQL
     @ConditionalOnMissingBean(name = "postgresqlForeignKeyStrategy")
     public PostgreSQLForeignKeyStrategy postgresqlForeignKeyStrategy() {
-        log.debug("Registering PostgreSQL foreign key strategy");
+        log.info("Registering PostgreSQL foreign key strategy");
         return new PostgreSQLForeignKeyStrategy();
     }
 
@@ -66,7 +66,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnPostgreSQL
     @ConditionalOnMissingBean(name = "postgresqlNotNullStrategy")
     public PostgreSQLNotNullStrategy postgresqlNotNullStrategy() {
-        log.debug("Registering PostgreSQL not-null strategy");
+        log.info("Registering PostgreSQL not-null strategy");
         return new PostgreSQLNotNullStrategy();
     }
 
@@ -74,7 +74,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnPostgreSQL
     @ConditionalOnMissingBean(name = "postgresqlCheckStrategy")
     public PostgreSQLCheckStrategy postgresqlCheckStrategy() {
-        log.debug("Registering PostgreSQL check constraint strategy");
+        log.info("Registering PostgreSQL check constraint strategy");
         return new PostgreSQLCheckStrategy();
     }
 
@@ -83,7 +83,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnOracle
     @ConditionalOnMissingBean(name = "oracleUniqueStrategy")
     public OracleUniqueStrategy oracleUniqueStrategy() {
-        log.debug("Registering Oracle unique constraint strategy");
+        log.info("Registering Oracle unique constraint strategy");
         return new OracleUniqueStrategy();
     }
 
@@ -91,7 +91,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnOracle
     @ConditionalOnMissingBean(name = "oracleForeignKeyStrategy")
     public OracleForeignKeyStrategy oracleForeignKeyStrategy() {
-        log.debug("Registering Oracle foreign key strategy");
+        log.info("Registering Oracle foreign key strategy");
         return new OracleForeignKeyStrategy();
     }
 
@@ -99,7 +99,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnOracle
     @ConditionalOnMissingBean(name = "oracleNotNullStrategy")
     public OracleNotNullStrategy oracleNotNullStrategy() {
-        log.debug("Registering Oracle not-null strategy");
+        log.info("Registering Oracle not-null strategy");
         return new OracleNotNullStrategy();
     }
 
@@ -107,7 +107,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnOracle
     @ConditionalOnMissingBean(name = "oracleCheckStrategy")
     public OracleCheckStrategy oracleCheckStrategy() {
-        log.debug("Registering Oracle check constraint strategy");
+        log.info("Registering Oracle check constraint strategy");
         return new OracleCheckStrategy();
     }
 
@@ -116,7 +116,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnMySQL
     @ConditionalOnMissingBean(name = "mysqlDuplicateEntryStrategy")
     public MySQLDuplicateEntryStrategy mysqlDuplicateEntryStrategy() {
-        log.debug("Registering MySQL duplicate entry strategy");
+        log.info("Registering MySQL duplicate entry strategy");
         return new MySQLDuplicateEntryStrategy();
     }
 
@@ -124,7 +124,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnMySQL
     @ConditionalOnMissingBean(name = "mysqlForeignKeyStrategy")
     public MySQLForeignKeyStrategy mysqlForeignKeyStrategy() {
-        log.debug("Registering MySQL foreign key strategy");
+        log.info("Registering MySQL foreign key strategy");
         return new MySQLForeignKeyStrategy();
     }
 
@@ -132,7 +132,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnMySQL
     @ConditionalOnMissingBean(name = "mysqlNotNullStrategy")
     public MySQLNotNullStrategy mysqlNotNullStrategy() {
-        log.debug("Registering MySQL not-null strategy");
+        log.info("Registering MySQL not-null strategy");
         return new MySQLNotNullStrategy();
     }
 
@@ -141,7 +141,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnMariaDB
     @ConditionalOnMissingBean(name = "mariaDBUniqueStrategy")
     public MariaDBUniqueStrategy mariaDBUniqueStrategy() {
-        log.debug("Registering MariaDB unique constraint strategy");
+        log.info("Registering MariaDB unique constraint strategy");
         return new MariaDBUniqueStrategy();
     }
 
@@ -150,7 +150,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnSQLServer
     @ConditionalOnMissingBean(name = "sqlServerUniqueStrategy")
     public SQLServerUniqueStrategy sqlServerUniqueStrategy() {
-        log.debug("Registering SQL Server unique constraint strategy");
+        log.info("Registering SQL Server unique constraint strategy");
         return new SQLServerUniqueStrategy();
     }
 
@@ -158,7 +158,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnSQLServer
     @ConditionalOnMissingBean(name = "sqlServerForeignKeyStrategy")
     public SQLServerForeignKeyStrategy sqlServerForeignKeyStrategy() {
-        log.debug("Registering SQL Server foreign key strategy");
+        log.info("Registering SQL Server foreign key strategy");
         return new SQLServerForeignKeyStrategy();
     }
 
@@ -166,7 +166,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnSQLServer
     @ConditionalOnMissingBean(name = "sqlServerNotNullStrategy")
     public SQLServerNotNullStrategy sqlServerNotNullStrategy() {
-        log.debug("Registering SQL Server not-null strategy");
+        log.info("Registering SQL Server not-null strategy");
         return new SQLServerNotNullStrategy();
     }
 
@@ -175,7 +175,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnH2
     @ConditionalOnMissingBean(name = "h2UniqueStrategy")
     public H2UniqueStrategy h2UniqueStrategy() {
-        log.debug("Registering H2 unique constraint strategy");
+        log.info("Registering H2 unique constraint strategy");
         return new H2UniqueStrategy();
     }
 
@@ -183,7 +183,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnH2
     @ConditionalOnMissingBean(name = "h2ForeignKeyStrategy")
     public H2ForeignKeyStrategy h2ForeignKeyStrategy() {
-        log.debug("Registering H2 foreign key strategy");
+        log.info("Registering H2 foreign key strategy");
         return new H2ForeignKeyStrategy();
     }
 
@@ -191,7 +191,7 @@ public class ConstraintViolationAutoConfiguration {
     @ConditionalOnH2
     @ConditionalOnMissingBean(name = "h2NotNullStrategy")
     public H2NotNullStrategy h2NotNullStrategy() {
-        log.debug("Registering H2 not-null strategy");
+        log.info("Registering H2 not-null strategy");
         return new H2NotNullStrategy();
     }
 
@@ -199,7 +199,7 @@ public class ConstraintViolationAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(GenericStrategy.class)
     public GenericStrategy genericStrategy() {
-        log.debug("Registering generic fallback strategy");
+        log.info("Registering generic fallback strategy");
         return new GenericStrategy();
     }
 
@@ -216,7 +216,7 @@ public class ConstraintViolationAutoConfiguration {
         allStrategies.remove(genericStrategy);
         allStrategies.add(genericStrategy);
 
-        log.debug("Constraint Violation Parser initialized with {} strategies", allStrategies.size());
+        log.info("Constraint Violation Parser initialized with {} strategies", allStrategies.size());
 
         return new ConstraintViolationParser(allStrategies);
     }
@@ -228,7 +228,7 @@ public class ConstraintViolationAutoConfiguration {
             ConstraintViolationParser parser,
             ConstraintViolationProperties properties
     ) {
-        log.debug("Registering Global Data Integrity Exception Handler");
+        log.info("Registering Global Data Integrity Exception Handler");
         return new GlobalDataIntegrityExceptionHandler(parser, properties);
     }
 }
