@@ -37,7 +37,7 @@ public class ExceptionHandlerAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public GlobalExceptionHandler globalExceptionHandler(ExceptionHandlerProperties properties) {
+    public GlobalExceptionHandler baseGlobalExceptionHandler(ExceptionHandlerProperties properties) {
         log.debug("Registering Global Exception Handler");
         return new GlobalExceptionHandler(properties);
     }

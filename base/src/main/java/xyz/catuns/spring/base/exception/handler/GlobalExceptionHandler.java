@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         if (properties.isLogExceptions()) {
-            log.error("[{}] at {}: {}",e.getClass().getSimpleName(), request.getRequestURI(), e.getMessage());
+            log.error("[{}] {} [path {}]",e.getClass().getSimpleName(), e.getMessage(), request.getRequestURI());
         }
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
