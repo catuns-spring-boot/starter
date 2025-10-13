@@ -1,4 +1,4 @@
-package xyz.catuns.spring.base.autoconfigure.properties;
+package xyz.catuns.spring.base.config.properties;
 
 import lombok.Data;
 
