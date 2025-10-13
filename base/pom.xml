@@ -34,15 +34,10 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>xyz.catuns.spring</groupId>-->
-<!--            <artifactId>constraint-violation-spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <optional>true</optional>
+            <groupId>xyz.catuns.spring</groupId>
+            <artifactId>constraint-violation-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -63,14 +58,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-
-
-        <dependency>
             <groupId>xyz.catuns.spring</groupId>
             <artifactId>catuns-spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -78,6 +65,10 @@
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
         </dependency>
     </dependencies>
 </project>
