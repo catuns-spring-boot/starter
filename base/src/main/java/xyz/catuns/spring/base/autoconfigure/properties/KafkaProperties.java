@@ -2,6 +2,7 @@ package xyz.catuns.spring.base.autoconfigure.properties;
 
 import lombok.Data;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,12 +14,12 @@ public class KafkaProperties {
     /**
      * Map key to value topic name
      */
-    private Map<String, String> topics;
+    private Map<String, String> topics = new HashMap<>();
     /**
      * Additional configuration properties to
      * apply to NewTopic builder
      */
-    private Map<String, String> configs;
+    private Map<String, String> configs = new HashMap<>();
     /**
      * Number of partitions to apply to new topics
      */
