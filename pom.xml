@@ -46,7 +46,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <revision>0.0.6-SNAPSHOT</revision>
+        <revision>0.0.6-beta-SNAPSHOT</revision>
     </properties>
 
     <distributionManagement>

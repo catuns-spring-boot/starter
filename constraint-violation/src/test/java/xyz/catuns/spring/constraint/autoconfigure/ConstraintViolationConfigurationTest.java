@@ -11,11 +11,11 @@ import xyz.catuns.spring.constraint.strategy.postgresql.PostgreSQLUniqueStrategy
 import static org.assertj.core.api.Assertions.assertThat;
 import static xyz.catuns.spring.constraint.Constants.CONSTRAINT_CONFIG_PROPERTY_PREFIX;
 
-class ConstraintViolationAutoConfigurationTest {
+class ConstraintViolationConfigurationTest {
 
     private final WebApplicationContextRunner contextRunner = new WebApplicationContextRunner()
             .withConfiguration(AutoConfigurations.of(
-                    ConstraintViolationAutoConfiguration.class  // ← This loads your auto-config
+                    ConstraintViolationConfiguration.class  // ← This loads your auto-config
             ));
 
     @Test
@@ -35,7 +35,7 @@ class ConstraintViolationAutoConfigurationTest {
 
             // Check if auto-configuration was loaded
             System.out.println("\n=== Auto-Configuration Loaded? ===");
-            System.out.println(context.getBeansOfType(ConstraintViolationAutoConfiguration.class));
+            System.out.println(context.getBeansOfType(ConstraintViolationConfiguration.class));
         });
     }
 
