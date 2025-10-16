@@ -9,6 +9,12 @@ import static xyz.catuns.spring.jwt.utils.Constants.Headers.AUTHORIZATION_KEY;
 import static xyz.catuns.spring.jwt.utils.Constants.Headers.TOKEN_EXPIRATION_KEY;
 import static xyz.catuns.spring.jwt.utils.Constants.Jwt.BEARER_TOKEN_PREFIX;
 
+/**
+ *
+ *
+ * @author Devin Catuns
+ * @since 0.0.6
+ */
 @Data
 @ConfigurationProperties(prefix = JWT_SECURITY_CONFIG_PROPERTY_PREFIX)
 public class JwtSecurityProperties {

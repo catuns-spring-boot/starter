@@ -5,6 +5,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Jwt Authentication manager properties
+ *
+ * @author Devin Catuns
+ * @since 0.0.6
  */
 @Data
 @ConfigurationProperties(prefix = "jwt.auth")

@@ -2,18 +2,24 @@ package xyz.catuns.spring.jwt.domain.repository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import xyz.catuns.spring.jwt.TestApplication;
 import xyz.catuns.spring.jwt.test.entity.TestUser;
 import xyz.catuns.spring.jwt.test.repository.TestUserRepository;
-import xyz.catuns.spring.repository.RepositoryTest;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DataJpaTest(properties = {})
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @ContextConfiguration(classes = TestApplication.class)
-class UserEntityRepositoryTest extends RepositoryTest<TestUserRepository> {
+class UserEntityRepositoryTest {
 
+    @Autowired
+    private TestUserRepository repository;
 
     @Test
     @DisplayName("should create user")

@@ -10,13 +10,16 @@ import static xyz.catuns.spring.jwt.utils.Constants.Config.JWT_CONFIG_PROPERTY_P
 
 /**
  * Properties for defining Jwt Service
+ *
+ * @author Devin Catuns
+ * @since 0.0.6
  */
 @Data
 @ConfigurationProperties(prefix = JWT_CONFIG_PROPERTY_PREFIX)
 public class JwtProperties {
 
     /**
-     * Enable auto configuration of {@link JwtService}
+     * Enable auto configuration
      */
     private boolean enabled = true;
     /**
