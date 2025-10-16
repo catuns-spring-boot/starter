@@ -12,7 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import xyz.catuns.spring.base.autoconfigure.ExceptionHandlerProperties;
+import xyz.catuns.spring.base.autoconfigure.properties.ExceptionHandlerProperties;
 import xyz.catuns.spring.base.exception.controller.ControllerException;
 
 import java.net.URI;
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         if (properties.isLogExceptions()) {
-            log.error("Unhandled exception at {}: {}", request.getRequestURI(), e.getMessage(), e);
+            log.error("[{}] {} [path {}]",e.getClass().getSimpleName(), e.getMessage(), request.getRequestURI());
         }
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(

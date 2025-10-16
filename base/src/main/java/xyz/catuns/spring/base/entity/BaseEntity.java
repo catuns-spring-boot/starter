@@ -25,10 +25,12 @@ public abstract class BaseEntity {
     protected UUID id;
 
     @CreatedDate
+    @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     protected Instant createdAt;
 
     @LastModifiedDate
+    @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     protected Instant updatedAt;
 

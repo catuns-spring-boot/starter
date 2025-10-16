@@ -10,6 +10,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import xyz.catuns.spring.base.autoconfigure.properties.ExceptionHandlerProperties;
 import xyz.catuns.spring.base.exception.handler.GlobalExceptionHandler;
 
 import static xyz.catuns.spring.base.utils.Constants.EXCEPTION_CONFIG_PROPERTY_PREFIX;
@@ -36,8 +37,8 @@ public class ExceptionHandlerAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public GlobalExceptionHandler globalExceptionHandler(ExceptionHandlerProperties properties) {
-        log.info("Registering Global Exception Handler");
+    public GlobalExceptionHandler baseGlobalExceptionHandler(ExceptionHandlerProperties properties) {
+        log.debug("Registering Global Exception Handler");
         return new GlobalExceptionHandler(properties);
     }
 }

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.5</version>
+        <version>3.5.6</version>
         <relativePath />
     </parent>
 
@@ -41,12 +41,12 @@
     </scm>
 
     <properties>
-        <spring.boot.version>3.5.5</spring.boot.version>
+        <spring.boot.version>3.5.6</spring.boot.version>
         <java.version>21</java.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <revision>0.0.5-SNAPSHOT</revision>
+        <revision>0.0.6-beta-SNAPSHOT</revision>
     </properties>
 
     <distributionManagement>

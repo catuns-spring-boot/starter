@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
+@Deprecated(since = "0.0.5")
 public class ErrorMessage {
     private static final ObjectMapper mapper;
 
